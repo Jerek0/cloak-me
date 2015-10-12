@@ -1,0 +1,11 @@
+<resources>
+    <string name="app_name">HelloAgainCrm</string>
+    <string name="title_activity_main">MainActivity</string>
+    <string name="userNameHint">Username</string>
+    <string name="passwordHint">password</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="menu.main.login">Go to Login</string>
+    <string name="menu.main.register">Go to Register</string>
+</resources>
