@@ -1,4 +1,4 @@
-package com.jeremy_minie.helloagaincrm.user;
+package com.jeremy_minie.helloagaincrm.home;
 
 
 import android.content.Context;
@@ -50,7 +50,7 @@ public class RegisterFragment extends Fragment {
     }
 
     public interface RegisterListener {
-        void onRegisterClicked();
+        void onRegisterClicked(CharSequence username, CharSequence mail, CharSequence password);
     }
 
 }

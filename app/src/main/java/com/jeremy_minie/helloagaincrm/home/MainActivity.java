@@ -1,4 +1,4 @@
-package com.jeremy_minie.helloagaincrm;
+package com.jeremy_minie.helloagaincrm.home;
 
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
@@ -10,8 +10,9 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 
-import com.jeremy_minie.helloagaincrm.user.LoginFragment;
-import com.jeremy_minie.helloagaincrm.user.RegisterFragment;
+import com.jeremy_minie.helloagaincrm.R;
+import com.jeremy_minie.helloagaincrm.home.LoginFragment;
+import com.jeremy_minie.helloagaincrm.home.RegisterFragment;
 
 public class MainActivity extends AppCompatActivity implements LoginFragment.LoginListener, RegisterFragment.RegisterListener {
 
@@ -72,19 +73,23 @@ public class MainActivity extends AppCompatActivity implements LoginFragment.Log
 
     @Override
     public void onLoginClicked(CharSequence username, CharSequence password) {
-        Log.d(TAG, "onClickedSendBtn " + username + " " + password);
-        Snackbar.make(findViewById(R.id.mainContainer), "Click", Snackbar.LENGTH_SHORT)
+        Log.d(TAG, "onClickedLoginBtn " + username + " " + password);
+        // TODO - Opens new activity
+
+        // TODO - Use this after opening new activity
+        /*Snackbar.make(findViewById(R.id.mainContainer), "Click", Snackbar.LENGTH_SHORT)
                 .setAction("UNDO", new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
                         Log.d(TAG, "undo");
                     }
                 })
-                .show();
+                .show();*/
     }
 
     @Override
-    public void onRegisterClicked() {
-
+    public void onRegisterClicked(CharSequence username, CharSequence mail, CharSequence password) {
+        // TODO - Opens new activity
+        Log.d(TAG, "onClickedRegisteerBtn " + username + " " + password);
     }
 }

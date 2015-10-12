@@ -1,4 +1,4 @@
-package com.jeremy_minie.helloagaincrm.user;
+package com.jeremy_minie.helloagaincrm.home;
 
 import android.content.Context;
 import android.os.Bundle;
@@ -13,8 +13,6 @@ import com.jeremy_minie.helloagaincrm.R;
 import butterknife.ButterKnife;
 import butterknife.Bind;
 import butterknife.OnClick;
-
-import android.support.annotation.Nullable;
 
 /**
  * A simple {@link Fragment} subclass.
