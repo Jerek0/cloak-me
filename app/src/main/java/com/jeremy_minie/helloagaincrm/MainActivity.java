@@ -21,7 +21,6 @@ public class MainActivity extends AppCompatActivity implements LoginFragment.Log
         super.onCreate(savedInstanceState);
         this.setContentView(R.layout.activity_main);
 
-
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
@@ -31,13 +30,20 @@ public class MainActivity extends AppCompatActivity implements LoginFragment.Log
 
         // FLOATING BTN
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Snackbar.make(view, "CRM14 - Java Android, Rappels", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
-            }
-        });
+        fab.setOnClickListener(
+                new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        Snackbar.make(view, "CRM14 - Java Android, Rappels", Snackbar.LENGTH_LONG)
+                                .setAction("Close", new View.OnClickListener() {
+                                    @Override
+                                    public void onClick(View v) {
+                                        Log.d(TAG, "close");
+                                    }
+                                }).show();
+                    }
+                }
+        );
     }
 
     @Override
@@ -60,8 +66,8 @@ public class MainActivity extends AppCompatActivity implements LoginFragment.Log
     }
 
     @Override
-    public void onLoginClicked() {
-        Log.d(TAG, "onClickedSendBtn");
+    public void onLoginClicked(CharSequence username, CharSequence password) {
+        Log.d(TAG, "onClickedSendBtn " + username + " " + password);
         Snackbar.make(findViewById(R.id.mainContainer), "Click", Snackbar.LENGTH_SHORT)
                 .setAction("UNDO", new View.OnClickListener() {
                     @Override
