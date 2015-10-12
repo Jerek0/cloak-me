@@ -22,6 +22,7 @@ public class MainActivity extends AppCompatActivity implements LoginFragment.Log
         this.setContentView(R.layout.activity_main);
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        toolbar.setTitle("HelloAgainCrm");
         setSupportActionBar(toolbar);
 
         // Adds login fragment

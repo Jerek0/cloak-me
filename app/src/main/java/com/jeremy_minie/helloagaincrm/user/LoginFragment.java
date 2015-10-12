@@ -25,12 +25,8 @@ public class LoginFragment extends Fragment {
     private static final String TAG = "LoginFragment";
     private LoginListener mListener;
 
-    @Nullable
-    @Bind(R.id.userName)
-    TextView mLoginUserName;
-    @Nullable
-    @Bind(R.id.password)
-    TextView mLoginPassword;
+    @Bind(R.id.userName) TextView mLoginUserName;
+    @Bind(R.id.password) TextView mLoginPassword;
 
     public LoginFragment() {
         // Required empty public constructor
