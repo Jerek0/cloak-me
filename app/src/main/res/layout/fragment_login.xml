@@ -8,15 +8,15 @@
         android:id="@+id/loginTitle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignLeft="@+id/userNameLayout"
+        android:layout_alignLeft="@+id/loginUserNameLayout"
         android:layout_alignParentTop="true"
         android:layout_marginTop="20dp"
-        android:layout_alignStart="@+id/userNameLayout"
+        android:layout_alignStart="@+id/loginUserNameLayout"
         android:text="@string/login"
         android:textAppearance="?android:attr/textAppearanceLarge" />
 
     <android.support.design.widget.TextInputLayout
-        android:id="@+id/userNameLayout"
+        android:id="@+id/loginUserNameLayout"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/loginTitle"
@@ -24,7 +24,7 @@
         android:layout_centerHorizontal="true">
 
         <EditText
-            android:id="@+id/userName"
+            android:id="@+id/loginUserName"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="81dp"
@@ -34,14 +34,14 @@
     </android.support.design.widget.TextInputLayout>
 
     <android.support.design.widget.TextInputLayout
-        android:id="@+id/passwordLayout"
+        android:id="@+id/loginPasswordLayout"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@id/userNameLayout"
+        android:layout_below="@id/loginUserNameLayout"
         android:layout_centerHorizontal="true">
 
         <EditText
-            android:id="@+id/password"
+            android:id="@+id/loginPassword"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:ems="10"
@@ -51,12 +51,12 @@
     </android.support.design.widget.TextInputLayout>
 
     <Button
-        android:id="@+id/sendButton"
+        android:id="@+id/loginButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignEnd="@+id/passwordLayout"
-        android:layout_alignRight="@+id/passwordLayout"
-        android:layout_below="@+id/passwordLayout"
+        android:layout_alignEnd="@+id/loginPasswordLayout"
+        android:layout_alignRight="@+id/loginPasswordLayout"
+        android:layout_below="@+id/loginPasswordLayout"
         android:layout_marginTop="25dp"
         android:text="Login" />
 

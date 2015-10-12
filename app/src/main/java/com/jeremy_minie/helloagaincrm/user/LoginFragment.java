@@ -25,8 +25,8 @@ public class LoginFragment extends Fragment {
     private static final String TAG = "LoginFragment";
     private LoginListener mListener;
 
-    @Bind(R.id.userName) TextView mLoginUserName;
-    @Bind(R.id.password) TextView mLoginPassword;
+    @Bind(R.id.loginUserName) TextView mLoginUserName;
+    @Bind(R.id.loginPassword) TextView mLoginPassword;
 
     public LoginFragment() {
         // Required empty public constructor
@@ -52,7 +52,7 @@ public class LoginFragment extends Fragment {
         return view;
     }
 
-    @OnClick(R.id.sendButton)
+    @OnClick(R.id.loginButton)
     void onClick() {
         mListener.onLoginClicked(mLoginUserName.getText(), mLoginPassword.getText());
     }

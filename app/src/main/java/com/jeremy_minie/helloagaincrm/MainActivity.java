@@ -11,8 +11,9 @@ import android.view.MenuItem;
 import android.view.View;
 
 import com.jeremy_minie.helloagaincrm.user.LoginFragment;
+import com.jeremy_minie.helloagaincrm.user.RegisterFragment;
 
-public class MainActivity extends AppCompatActivity implements LoginFragment.LoginListener {
+public class MainActivity extends AppCompatActivity implements LoginFragment.LoginListener, RegisterFragment.RegisterListener {
 
     private static final String TAG = "MainActivity";
 
@@ -55,11 +56,14 @@ public class MainActivity extends AppCompatActivity implements LoginFragment.Log
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
+
         if (item.getItemId() == R.id.menuMainLoginItem) {
-            // Login
+            LoginFragment fragment = new LoginFragment();
+            getSupportFragmentManager().beginTransaction().replace(R.id.mainContainer, fragment).commit();
             return true;
-        } else if (item.getItemId() == R.id.menuMainLoginItem) {
-            // register
+        } else if (item.getItemId() == R.id.menuMainRegisterItem) {
+            RegisterFragment fragment = new RegisterFragment();
+            getSupportFragmentManager().beginTransaction().replace(R.id.mainContainer, fragment).commit();
             return true;
         }
 
@@ -77,5 +81,10 @@ public class MainActivity extends AppCompatActivity implements LoginFragment.Log
                     }
                 })
                 .show();
+    }
+
+    @Override
+    public void onRegisterClicked() {
+
     }
 }
