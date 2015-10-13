@@ -1,4 +1,4 @@
-package com.jeremy_minie.helloagaincrm.home;
+package com.jeremy_minie.helloagaincrm;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -13,8 +13,8 @@ import android.view.View;
 
 import com.firebase.client.AuthData;
 import com.firebase.client.FirebaseError;
-import com.jeremy_minie.helloagaincrm.FirebaseManager;
-import com.jeremy_minie.helloagaincrm.R;
+import com.jeremy_minie.helloagaincrm.home.LoginFragment;
+import com.jeremy_minie.helloagaincrm.home.RegisterFragment;
 import com.jeremy_minie.helloagaincrm.user.UserActivity;
 
 import java.util.Map;

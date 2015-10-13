@@ -8,12 +8,9 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
-import android.widget.TextView;
 
 import com.jeremy_minie.helloagaincrm.R;
-import com.jeremy_minie.helloagaincrm.home.MainActivity;
-
-import butterknife.Bind;
+import com.jeremy_minie.helloagaincrm.MainActivity;
 
 public class UserActivity extends AppCompatActivity {
 

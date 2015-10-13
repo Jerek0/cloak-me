@@ -12,7 +12,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme" >
         <activity
-            android:name=".home.MainActivity"
+            android:name=".MainActivity"
             android:label="@string/title_activity_main"
             android:theme="@style/AppTheme.NoActionBar" >
             <intent-filter>
@@ -24,10 +24,10 @@
         <activity
             android:name=".user.UserActivity"
             android:label="test"
-            android:parentActivityName=".home.MainActivity" >
+            android:parentActivityName=".MainActivity" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.jeremy_minie.helloagaincrm.home.MainActivity" />
+                android:value=".MainActivity" />
         </activity>
     </application>
 

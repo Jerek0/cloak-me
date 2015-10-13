@@ -3,6 +3,7 @@ package com.jeremy_minie.helloagaincrm;
 import com.firebase.client.AuthData;
 import com.firebase.client.Firebase;
 import com.firebase.client.FirebaseError;
+import com.jeremy_minie.helloagaincrm.user.User;
 
 import java.util.Map;
 
@@ -17,10 +18,10 @@ public class FirebaseManager {
     }
 
     private Firebase ref;
-
     private FirebaseManager() {
         ref = new Firebase("https://helloagaincrm.firebaseio.com/");
     }
+    private User user;
 
     public void authWithPassword(String mail, String password, final FirebaseListener listener) {
         ref.authWithPassword(mail, password, new Firebase.AuthResultHandler() {

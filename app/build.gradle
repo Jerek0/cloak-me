@@ -31,4 +31,5 @@ dependencies {
     compile 'com.android.support:design:23.0.1'
     compile 'com.jakewharton:butterknife:7.0.1'
     compile 'com.firebase:firebase-client-android:2.3.1'
+    compile 'com.scottyab:aes-crypto:0.0.3'
 }
