@@ -13,6 +13,7 @@ import com.jeremy_minie.helloagaincrm.R;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -23,6 +24,7 @@ public class RegisterFragment extends Fragment {
     private RegisterListener mListener;
 
     @Bind(R.id.registerUserName) TextView mRegisterUserName;
+    @Bind(R.id.registerMail) TextView mRegisterMail;
     @Bind(R.id.registerPassword) TextView mRegisterPassword;
 
     public RegisterFragment() {
@@ -48,6 +50,9 @@ public class RegisterFragment extends Fragment {
 
         return view;
     }
+
+    @OnClick(R.id.registerButton)
+    void onClick() { mListener.onRegisterClicked(mRegisterUserName.getText(), mRegisterMail.getText(), mRegisterPassword.getText()); }
 
     public interface RegisterListener {
         void onRegisterClicked(CharSequence username, CharSequence mail, CharSequence password);

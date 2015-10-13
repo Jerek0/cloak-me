@@ -45,7 +45,8 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="81dp"
             android:ems="10"
-            android:hint="@string/mailHint" />
+            android:hint="@string/mailHint"
+            android:inputType="textEmailAddress" />
 
     </android.support.design.widget.TextInputLayout>
 

@@ -80,7 +80,6 @@ public class MainActivity extends AppCompatActivity implements LoginFragment.Log
     @Override
     public void onLoginClicked(CharSequence username, CharSequence password) {
         Log.d(TAG, "onClickedLoginBtn");
-        // TODO - Opens new activity
         if(username.length() > 0 && password.length() > 0) {
             Intent intent = new Intent(this, UserActivity.class);
             intent.putExtra(USERNAME, username);
@@ -96,21 +95,26 @@ public class MainActivity extends AppCompatActivity implements LoginFragment.Log
                     })
                     .show();
         }
-
-        // TODO - Use this after opening new activity
-        /*Snackbar.make(findViewById(R.id.mainContainer), "Click", Snackbar.LENGTH_SHORT)
-                .setAction("UNDO", new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        Log.d(TAG, "undo");
-                    }
-                })
-                .show();*/
     }
 
     @Override
     public void onRegisterClicked(CharSequence username, CharSequence mail, CharSequence password) {
-        // TODO - Opens new activity
         Log.d(TAG, "onClickedRegisteerBtn " + username + " " + password);
+        if(username.length() > 0 && password.length() > 0 && mail.length() > 0) {
+            Intent intent = new Intent(this, UserActivity.class);
+            intent.putExtra(USERNAME, username);
+            intent.putExtra(MAIL, mail);
+            intent.putExtra(PASSWORD, password);
+            startActivity(intent);
+        } else {
+            Snackbar.make(findViewById(R.id.mainContainer), "You have to fill all inputs", Snackbar.LENGTH_SHORT)
+                    .setAction("DISMISS", new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            Log.d(TAG, "Dismiss");
+                        }
+                    })
+                    .show();
+        }
     }
 }
