@@ -8,15 +8,15 @@
         android:id="@+id/loginTitle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignLeft="@+id/loginUserNameLayout"
+        android:layout_alignLeft="@+id/loginMailLayout"
         android:layout_alignParentTop="true"
         android:layout_marginTop="20dp"
-        android:layout_alignStart="@+id/loginUserNameLayout"
+        android:layout_alignStart="@+id/loginMailLayout"
         android:text="@string/login"
         android:textAppearance="?android:attr/textAppearanceLarge" />
 
     <android.support.design.widget.TextInputLayout
-        android:id="@+id/loginUserNameLayout"
+        android:id="@+id/loginMailLayout"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/loginTitle"
@@ -24,12 +24,13 @@
         android:layout_centerHorizontal="true">
 
         <EditText
-            android:id="@+id/loginUserName"
+            android:id="@+id/loginMail"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="81dp"
             android:ems="10"
-            android:hint="@string/userNameHint" />
+            android:hint="@string/mailHint"
+            android:inputType="textEmailAddress"/>
 
     </android.support.design.widget.TextInputLayout>
 
@@ -37,7 +38,7 @@
         android:id="@+id/loginPasswordLayout"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@id/loginUserNameLayout"
+        android:layout_below="@id/loginMailLayout"
         android:layout_centerHorizontal="true">
 
         <EditText

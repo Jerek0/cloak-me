@@ -85,19 +85,18 @@ public class MainActivity extends AppCompatActivity implements LoginFragment.Log
     }
 
     @Override
-    public void onLoginClicked(final CharSequence username, final CharSequence password) {
+    public void onLoginClicked(final CharSequence mail, final CharSequence password) {
         final MainActivity scope = this;
 
         Log.d(TAG, "onClickedLoginBtn");
-        if(username.length() > 0 && password.length() > 0) {
-            fbRef.authWithPassword(username.toString(), password.toString(), new Firebase.AuthResultHandler() {
+        if(mail.length() > 0 && password.length() > 0) {
+            fbRef.authWithPassword(mail.toString(), password.toString(), new Firebase.AuthResultHandler() {
                 @Override
                 public void onAuthenticated(AuthData authData) {
                     System.out.println("User ID: " + authData.getUid() + ", Provider: " + authData.getProvider());
 
                     Intent intent = new Intent(scope, UserActivity.class);
-                    intent.putExtra(USERNAME, username);
-                    intent.putExtra(MAIL, username);
+                    intent.putExtra(MAIL, mail);
                     intent.putExtra(PASSWORD, password);
                     startActivity(intent);
                 }
