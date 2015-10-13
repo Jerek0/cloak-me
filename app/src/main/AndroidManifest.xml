@@ -2,6 +2,8 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.jeremy_minie.helloagaincrm" >
 
+    <uses-permission android:name="android.permission.INTERNET" />
+
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
@@ -21,7 +23,7 @@
         <activity
             android:name=".user.UserActivity"
             android:label="test"
-            android:parentActivityName="com.jeremy_minie.helloagaincrm.home.MainActivity" >
+            android:parentActivityName=".home.MainActivity" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.jeremy_minie.helloagaincrm.home.MainActivity" />
