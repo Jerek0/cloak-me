@@ -1,5 +1,6 @@
 package com.jeremy_minie.helloagaincrm.home;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -13,10 +14,15 @@ import android.view.View;
 import com.jeremy_minie.helloagaincrm.R;
 import com.jeremy_minie.helloagaincrm.home.LoginFragment;
 import com.jeremy_minie.helloagaincrm.home.RegisterFragment;
+import com.jeremy_minie.helloagaincrm.user.UserActivity;
+import com.jeremy_minie.helloagaincrm.user.User;
 
 public class MainActivity extends AppCompatActivity implements LoginFragment.LoginListener, RegisterFragment.RegisterListener {
 
     private static final String TAG = "MainActivity";
+    public static final String USERNAME = TAG+".username";
+    public static final String PASSWORD = TAG+".password";
+    public static final String MAIL = TAG+".mail";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -73,8 +79,23 @@ public class MainActivity extends AppCompatActivity implements LoginFragment.Log
 
     @Override
     public void onLoginClicked(CharSequence username, CharSequence password) {
-        Log.d(TAG, "onClickedLoginBtn " + username + " " + password);
+        Log.d(TAG, "onClickedLoginBtn");
         // TODO - Opens new activity
+        if(username.length() > 0 && password.length() > 0) {
+            Intent intent = new Intent(this, UserActivity.class);
+            intent.putExtra(USERNAME, username);
+            intent.putExtra(PASSWORD, password);
+            startActivity(intent);
+        } else {
+            Snackbar.make(findViewById(R.id.mainContainer), "Username and password don't match !", Snackbar.LENGTH_SHORT)
+                    .setAction("DISMISS", new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            Log.d(TAG, "Dismiss");
+                        }
+                    })
+                    .show();
+        }
 
         // TODO - Use this after opening new activity
         /*Snackbar.make(findViewById(R.id.mainContainer), "Click", Snackbar.LENGTH_SHORT)
