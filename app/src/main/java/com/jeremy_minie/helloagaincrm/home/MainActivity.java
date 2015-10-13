@@ -81,8 +81,6 @@ public class MainActivity extends AppCompatActivity implements LoginFragment.Log
 
     @Override
     public void onLoginClicked(final CharSequence mail, final CharSequence password) {
-        final MainActivity scope = this;
-
         Log.d(TAG, "onClickedLoginBtn");
         FirebaseManager.getInstance().authWithPassword(mail.toString(), password.toString(), this);
     }
@@ -90,7 +88,6 @@ public class MainActivity extends AppCompatActivity implements LoginFragment.Log
     @Override
     public void onRegisterClicked(CharSequence username, CharSequence mail, CharSequence password) {
         Log.d(TAG, "onClickedRegisteerBtn " + username + " " + password);
-
         FirebaseManager.getInstance().createUser(mail.toString(), password.toString(), this);
     }
 
