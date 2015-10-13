@@ -14,4 +14,15 @@ public class User {
         password = p;
     }
 
+    public CharSequence getUsername() {
+        return username;
+    }
+
+    public CharSequence getMail() {
+        return mail;
+    }
+
+    public CharSequence getPassword() {
+        return password;
+    }
 }

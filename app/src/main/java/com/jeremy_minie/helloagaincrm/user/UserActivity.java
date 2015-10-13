@@ -8,9 +8,12 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
+import android.widget.TextView;
 
 import com.jeremy_minie.helloagaincrm.R;
 import com.jeremy_minie.helloagaincrm.home.MainActivity;
+
+import butterknife.Bind;
 
 public class UserActivity extends AppCompatActivity {
 
@@ -27,7 +30,9 @@ public class UserActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
 
         Intent intent = getIntent();
-        user = new User(intent.getStringExtra(MainActivity.USERNAME), intent.getStringExtra(MainActivity.MAIL),intent.getStringExtra(MainActivity.PASSWORD));
+        ProfileFragment fragment = new ProfileFragment();
+        fragment.setUser(new User(intent.getCharSequenceExtra(MainActivity.USERNAME), intent.getCharSequenceExtra(MainActivity.MAIL), intent.getCharSequenceExtra(MainActivity.PASSWORD)));
+        getSupportFragmentManager().beginTransaction().add(R.id.mainContainer, fragment).commit();
 
         Snackbar.make(findViewById(R.id.mainContainer), "You are now logged in :) !", Snackbar.LENGTH_LONG)
                 .setAction("DISMISS", new View.OnClickListener() {
