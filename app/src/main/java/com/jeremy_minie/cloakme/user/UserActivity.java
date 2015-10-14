@@ -9,8 +9,14 @@ import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
 
+<<<<<<< HEAD:app/src/main/java/com/jeremy_minie/cloakme/user/UserActivity.java
 import com.jeremy_minie.cloakme.R;
 import com.jeremy_minie.cloakme.MainActivity;
+=======
+import com.jeremy_minie.helloagaincrm.FirebaseManager;
+import com.jeremy_minie.helloagaincrm.R;
+import com.jeremy_minie.helloagaincrm.MainActivity;
+>>>>>>> 42f753b3e0f3ba49fd2d9bc2c63d1bbf76e8b76b:app/src/main/java/com/jeremy_minie/helloagaincrm/user/UserActivity.java
 
 public class UserActivity extends AppCompatActivity {
 
@@ -39,5 +45,12 @@ public class UserActivity extends AppCompatActivity {
                     }
                 })
                 .show();
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+
+        FirebaseManager.getInstance().unAuth();
     }
 }
