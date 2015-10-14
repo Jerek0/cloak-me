@@ -1,4 +1,4 @@
-package com.jeremy_minie.cloakme.home;
+package com.jeremy_minie.helloagaincrm.home;
 
 import android.content.Context;
 import android.os.Bundle;
@@ -8,7 +8,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import com.jeremy_minie.cloakme.R;
+import com.jeremy_minie.helloagaincrm.R;
 
 import butterknife.ButterKnife;
 import butterknife.Bind;

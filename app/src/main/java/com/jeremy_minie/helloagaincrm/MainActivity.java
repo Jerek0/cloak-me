@@ -1,4 +1,4 @@
-package com.jeremy_minie.cloakme;
+package com.jeremy_minie.helloagaincrm;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -13,9 +13,9 @@ import android.view.View;
 
 import com.firebase.client.AuthData;
 import com.firebase.client.FirebaseError;
-import com.jeremy_minie.cloakme.home.LoginFragment;
-import com.jeremy_minie.cloakme.home.RegisterFragment;
-import com.jeremy_minie.cloakme.user.UserActivity;
+import com.jeremy_minie.helloagaincrm.home.LoginFragment;
+import com.jeremy_minie.helloagaincrm.home.RegisterFragment;
+import com.jeremy_minie.helloagaincrm.user.UserActivity;
 
 import java.util.Map;
 
@@ -119,7 +119,6 @@ public class MainActivity extends AppCompatActivity implements LoginFragment.Log
 
     @Override
     public void onError(FirebaseError firebaseError) {
-        Log.e(TAG, ""+firebaseError.getCode());
         Log.e(TAG, firebaseError.toString());
         Snackbar.make(findViewById(R.id.mainContainer), firebaseError.getMessage(), Snackbar.LENGTH_SHORT)
                 .setAction("DISMISS", new View.OnClickListener() {

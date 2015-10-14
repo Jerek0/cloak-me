@@ -2,7 +2,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.jeremy_minie.cloakme.home.LoginFragment">
+    tools:context="com.jeremy_minie.helloagaincrm.home.LoginFragment">
 
     <TextView
         android:id="@+id/loginTitle"

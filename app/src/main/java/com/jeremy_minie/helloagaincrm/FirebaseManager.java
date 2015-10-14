@@ -1,11 +1,11 @@
-package com.jeremy_minie.cloakme;
+package com.jeremy_minie.helloagaincrm;
 
 import android.util.Log;
 
 import com.firebase.client.AuthData;
 import com.firebase.client.Firebase;
 import com.firebase.client.FirebaseError;
-import com.jeremy_minie.cloakme.user.User;
+import com.jeremy_minie.helloagaincrm.user.User;
 
 import java.util.Map;
 
