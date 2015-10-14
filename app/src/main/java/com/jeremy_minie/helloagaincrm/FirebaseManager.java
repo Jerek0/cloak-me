@@ -1,5 +1,7 @@
 package com.jeremy_minie.helloagaincrm;
 
+import android.util.Log;
+
 import com.firebase.client.AuthData;
 import com.firebase.client.Firebase;
 import com.firebase.client.FirebaseError;
@@ -11,6 +13,7 @@ import java.util.Map;
  * Created by jminie on 13/10/2015.
  */
 public class FirebaseManager {
+    private static final String TAG = "FirebaseManager";
     private static FirebaseManager ourInstance = new FirebaseManager();
 
     public static FirebaseManager getInstance() {
@@ -48,6 +51,11 @@ public class FirebaseManager {
                 listener.onError(firebaseError);
             }
         });
+    }
+
+    public void unAuth() {
+        Log.d(TAG, "unAuth");
+        ref.unauth();
     }
 
     public interface FirebaseListener {
