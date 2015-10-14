@@ -1,4 +1,4 @@
-package com.jeremy_minie.helloagaincrm.user;
+package com.jeremy_minie.cloakme.user;
 
 /**
  * Created by jminie on 13/10/2015.

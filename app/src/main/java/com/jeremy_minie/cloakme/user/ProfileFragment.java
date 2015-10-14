@@ -1,16 +1,15 @@
-package com.jeremy_minie.helloagaincrm.user;
+package com.jeremy_minie.cloakme.user;
 
 
 import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import com.jeremy_minie.helloagaincrm.R;
+import com.jeremy_minie.cloakme.R;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;

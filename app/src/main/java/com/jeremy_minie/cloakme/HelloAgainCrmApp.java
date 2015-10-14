@@ -1,4 +1,4 @@
-package com.jeremy_minie.helloagaincrm;
+package com.jeremy_minie.cloakme;
 
 import android.app.Application;
 

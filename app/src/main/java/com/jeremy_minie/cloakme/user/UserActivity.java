@@ -1,4 +1,4 @@
-package com.jeremy_minie.helloagaincrm.user;
+package com.jeremy_minie.cloakme.user;
 
 
 import android.content.Intent;
@@ -9,8 +9,8 @@ import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
 
-import com.jeremy_minie.helloagaincrm.R;
-import com.jeremy_minie.helloagaincrm.MainActivity;
+import com.jeremy_minie.cloakme.R;
+import com.jeremy_minie.cloakme.MainActivity;
 
 public class UserActivity extends AppCompatActivity {
 

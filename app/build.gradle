@@ -5,7 +5,7 @@ android {
     buildToolsVersion "23.0.1"
 
     defaultConfig {
-        applicationId "com.jeremy_minie.helloagaincrm"
+        applicationId "com.jeremy_minie.cloakme"
         minSdkVersion 15
         targetSdkVersion 23
         versionCode 1
