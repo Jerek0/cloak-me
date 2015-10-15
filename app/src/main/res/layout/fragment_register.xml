@@ -7,39 +7,21 @@
         android:id="@+id/registerTitle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignLeft="@+id/registerUserNameLayout"
         android:layout_alignParentTop="true"
-        android:layout_marginTop="20dp"
-        android:layout_alignStart="@+id/registerUserNameLayout"
+        android:layout_marginTop="60dp"
         android:text="@string/register"
+        android:layout_centerHorizontal="true"
         android:textAppearance="?android:attr/textAppearanceLarge" />
 
     <android.support.design.widget.TextInputLayout
-        android:id="@+id/registerUserNameLayout"
+        android:id="@+id/registerMailLayout"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/registerTitle"
         android:layout_marginTop="20dp"
         android:layout_centerHorizontal="true">
 
-        <EditText
-            android:id="@+id/registerUserName"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="81dp"
-            android:ems="10"
-            android:hint="@string/userNameHint" />
-
-    </android.support.design.widget.TextInputLayout>
-
-    <android.support.design.widget.TextInputLayout
-        android:id="@+id/registerMailLayout"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/registerUserNameLayout"
-        android:layout_centerHorizontal="true">
-
-        <EditText
+    <EditText
             android:id="@+id/registerMail"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -71,10 +53,9 @@
         android:id="@+id/registerButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignEnd="@+id/registerPasswordLayout"
-        android:layout_alignRight="@+id/registerPasswordLayout"
         android:layout_below="@+id/registerPasswordLayout"
         android:layout_marginTop="25dp"
+        android:layout_centerHorizontal="true"
         android:text="@string/registerLabel" />
 
 </RelativeLayout>

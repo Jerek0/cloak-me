@@ -23,7 +23,6 @@ public class RegisterFragment extends Fragment {
     private static final String TAG = "RegisterFragment";
     private RegisterListener mListener;
 
-    @Bind(R.id.registerUserName) TextView mRegisterUserName;
     @Bind(R.id.registerMail) TextView mRegisterMail;
     @Bind(R.id.registerPassword) TextView mRegisterPassword;
 
@@ -52,10 +51,10 @@ public class RegisterFragment extends Fragment {
     }
 
     @OnClick(R.id.registerButton)
-    void onClick() { mListener.onRegisterClicked(mRegisterUserName.getText(), mRegisterMail.getText(), mRegisterPassword.getText()); }
+    void onClick() { mListener.onRegisterClicked(mRegisterMail.getText(), mRegisterPassword.getText()); }
 
     public interface RegisterListener {
-        void onRegisterClicked(CharSequence username, CharSequence mail, CharSequence password);
+        void onRegisterClicked(CharSequence mail, CharSequence password);
     }
 
 }

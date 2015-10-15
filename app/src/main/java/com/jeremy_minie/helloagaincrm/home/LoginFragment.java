@@ -51,11 +51,17 @@ public class LoginFragment extends Fragment {
     }
 
     @OnClick(R.id.loginButton)
-    void onClick() {
+    void onLoginClick() {
         mListener.onLoginClicked(mLoginMail.getText(), mLoginPassword.getText());
+    }
+
+    @OnClick(R.id.registerButton)
+    void onRegisterClick() {
+        mListener.onRegisterClicked();
     }
 
     public interface LoginListener {
         void onLoginClicked(CharSequence username, CharSequence password);
+        void onRegisterClicked();
     }
 }

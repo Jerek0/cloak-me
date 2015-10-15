@@ -19,7 +19,7 @@ import com.jeremy_minie.helloagaincrm.user.UserActivity;
 
 import java.util.Map;
 
-public class MainActivity extends AppCompatActivity implements LoginFragment.LoginListener, RegisterFragment.RegisterListener, FirebaseManager.FirebaseListener {
+public class MainActivity extends AppCompatActivity implements LoginFragment.LoginListener, FirebaseManager.FirebaseAuthListener {
 
     private static final String TAG = "MainActivity";
     public static final String USERNAME = TAG+".username";
@@ -31,52 +31,22 @@ public class MainActivity extends AppCompatActivity implements LoginFragment.Log
         super.onCreate(savedInstanceState);
         this.setContentView(R.layout.activity_main);
 
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        toolbar.setTitle("HelloAgainCrm");
-        setSupportActionBar(toolbar);
-
         // Adds login fragment
         LoginFragment fragment = new LoginFragment();
         getSupportFragmentManager().beginTransaction().add(R.id.mainContainer, fragment).commit();
 
-        // FLOATING BTN
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setOnClickListener(
-                new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        Snackbar.make(view, "CRM14 - Java Android, Rappels", Snackbar.LENGTH_LONG)
-                                .setAction("Close", new View.OnClickListener() {
-                                    @Override
-                                    public void onClick(View v) {
-                                        Log.d(TAG, "close");
-                                    }
-                                }).show();
-                    }
-                }
-        );
-    }
+        Intent intent = getIntent();
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.menu_main, menu);
-        return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-
-        if (item.getItemId() == R.id.menuMainLoginItem) {
-            LoginFragment fragment = new LoginFragment();
-            getSupportFragmentManager().beginTransaction().replace(R.id.mainContainer, fragment).commit();
-            return true;
-        } else if (item.getItemId() == R.id.menuMainRegisterItem) {
-            RegisterFragment fragment = new RegisterFragment();
-            getSupportFragmentManager().beginTransaction().replace(R.id.mainContainer, fragment).commit();
-            return true;
+        if(intent.getStringExtra(RegisterActivity.INFO) != null) {
+            Snackbar.make(findViewById(R.id.mainContainer), intent.getStringExtra(RegisterActivity.INFO), Snackbar.LENGTH_SHORT)
+                    .setAction("DISMISS", new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            Log.d(TAG, "Dismiss");
+                        }
+                    })
+                    .show();
         }
-
-        return super.onOptionsItemSelected(item);
     }
 
     @Override
@@ -86,9 +56,9 @@ public class MainActivity extends AppCompatActivity implements LoginFragment.Log
     }
 
     @Override
-    public void onRegisterClicked(CharSequence username, CharSequence mail, CharSequence password) {
-        Log.d(TAG, "onClickedRegisteerBtn " + username + " " + password);
-        FirebaseManager.getInstance().createUser(mail.toString(), password.toString(), this);
+    public void onRegisterClicked() {
+        Intent intent = new Intent(this, RegisterActivity.class);
+        startActivity(intent);
     }
 
     @Override
@@ -98,23 +68,6 @@ public class MainActivity extends AppCompatActivity implements LoginFragment.Log
         Intent intent = new Intent(this, UserActivity.class);
         intent.putExtra(MAIL, authData.getProviderData().get("email").toString());
         startActivity(intent);
-    }
-
-    @Override
-    public void onSuccessRegister(Map<String, Object> stringObjectMap) {
-        System.out.println("Successfully created user account with uid: " + stringObjectMap.get("uid"));
-
-        LoginFragment fragment = new LoginFragment();
-        getSupportFragmentManager().beginTransaction().replace(R.id.mainContainer, fragment).commit();
-
-        Snackbar.make(findViewById(R.id.mainContainer), "You are now registered, please login", Snackbar.LENGTH_SHORT)
-                .setAction("DISMISS", new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        Log.d(TAG, "Dismiss");
-                    }
-                })
-                .show();
     }
 
     @Override

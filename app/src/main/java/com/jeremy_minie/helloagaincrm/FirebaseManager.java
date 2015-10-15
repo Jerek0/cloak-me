@@ -26,7 +26,7 @@ public class FirebaseManager {
     }
     private User user;
 
-    public void authWithPassword(String mail, String password, final FirebaseListener listener) {
+    public void authWithPassword(String mail, String password, final FirebaseAuthListener listener) {
         ref.authWithPassword(mail, password, new Firebase.AuthResultHandler() {
             @Override
             public void onAuthenticated(AuthData authData) {
@@ -39,7 +39,7 @@ public class FirebaseManager {
         });
     }
 
-    public void createUser(String mail, String password, final FirebaseListener listener) {
+    public void createUser(String mail, String password, final FirebaseRegisterListener listener) {
         ref.createUser(mail, password, new Firebase.ValueResultHandler<Map<String, Object>>() {
             @Override
             public void onSuccess(Map<String, Object> stringObjectMap) {
@@ -58,8 +58,12 @@ public class FirebaseManager {
         ref.unauth();
     }
 
-    public interface FirebaseListener {
+    public interface FirebaseAuthListener {
         void onSuccessAuth(AuthData authData);
+        void onError(FirebaseError firebaseError);
+    }
+
+    public interface FirebaseRegisterListener {
         void onSuccessRegister(Map<String, Object> stringObjectMap);
         void onError(FirebaseError firebaseError);
     }
