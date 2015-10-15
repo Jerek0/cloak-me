@@ -3,22 +3,22 @@
     android:layout_height="match_parent"
     tools:context="com.jeremy_minie.helloagaincrm.home.ProfileFragment">
 
-    <TextView
-        android:id="@+id/profileTitle"
-        android:layout_width="wrap_content"
+    <ImageView
+        android:id="@+id/imageView"
+        android:layout_centerVertical="true"
+        android:layout_centerHorizontal="true"
+        android:src="@drawable/back_data_blurred"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_alignLeft="@+id/profileUserNameLayout"
-        android:layout_alignParentTop="true"
-        android:layout_marginTop="20dp"
-        android:layout_alignStart="@+id/profileUserNameLayout"
-        android:text="@string/register"
-        android:textAppearance="?android:attr/textAppearanceLarge" />
+        android:scaleType="centerCrop"
+        android:adjustViewBounds="true"
+        />
+
 
     <android.support.design.widget.TextInputLayout
         android:id="@+id/profileUserNameLayout"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/profileTitle"
         android:layout_marginTop="20dp"
         android:layout_centerHorizontal="true">
 

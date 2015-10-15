@@ -13,18 +13,9 @@
         android:theme="@style/AppTheme" >
         <activity
             android:name=".home.MainActivity"
+            android:launchMode="singleTop"
             android:screenOrientation="portrait"
-            android:theme="@style/AppTheme.NoActionBar"
-            android:launchMode="singleTop" >
-        </activity>
-        <activity
-            android:name=".user.UserActivity"
-            android:label="test"
-            android:parentActivityName=".home.MainActivity"
-            android:screenOrientation="portrait">
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value=".home.MainActivity" />
+            android:theme="@style/AppTheme.NoActionBar" >
         </activity>
         <activity
             android:name=".SplashScreen"
@@ -37,7 +28,9 @@
         </activity>
         <activity
             android:name=".home.RegisterActivity"
-            android:parentActivityName=".home.MainActivity">
+            android:parentActivityName=".home.MainActivity" >
+        </activity>
+        <activity android:name=".logged.LoggedActivity" >
         </activity>
     </application>
 

@@ -32,4 +32,7 @@ dependencies {
     compile 'com.jakewharton:butterknife:7.0.1'
     compile 'com.firebase:firebase-client-android:2.3.1'
     compile 'com.scottyab:aes-crypto:0.0.3'
+    compile 'com.android.support:recyclerview-v7:23.0.0'
+    compile 'com.android.support:percent:23.0.0'
+    compile 'com.android.support:support-annotations:23.0.0'
 }

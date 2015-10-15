@@ -2,8 +2,8 @@
 <resources>
     <color name="colorPrimary">#1d2031</color>
     <color name="colorPrimaryDark">#393939</color>
-    <color name="colorAccent">#1effa9</color>
+    <color name="colorAccent">#00ff90</color>
     <color name="statusBarColor">#20ffa9</color>
-    <color name="holo_purple">#20ffa9</color>
+    <color name="holo_purple">#00ff90</color>
     <color name="background_material_dark">#191c2b</color>
 </resources>

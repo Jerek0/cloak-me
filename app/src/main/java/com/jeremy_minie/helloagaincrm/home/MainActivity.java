@@ -11,9 +11,7 @@ import com.firebase.client.AuthData;
 import com.firebase.client.FirebaseError;
 import com.jeremy_minie.helloagaincrm.FirebaseManager;
 import com.jeremy_minie.helloagaincrm.R;
-import com.jeremy_minie.helloagaincrm.home.LoginFragment;
-import com.jeremy_minie.helloagaincrm.home.RegisterActivity;
-import com.jeremy_minie.helloagaincrm.user.UserActivity;
+import com.jeremy_minie.helloagaincrm.logged.LoggedActivity;
 
 public class MainActivity extends AppCompatActivity implements LoginFragment.LoginListener, FirebaseManager.FirebaseAuthListener {
 
@@ -72,7 +70,7 @@ public class MainActivity extends AppCompatActivity implements LoginFragment.Log
     public void onSuccessAuth(AuthData authData) {
         System.out.println("User ID: " + authData.getUid() + ", Provider: " + authData.getProvider());
 
-        Intent intent = new Intent(this, UserActivity.class);
+        Intent intent = new Intent(this, LoggedActivity.class);
         intent.putExtra(MAIL, authData.getProviderData().get("email").toString());
         startActivity(intent);
     }
