@@ -1,4 +1,4 @@
-package com.jeremy_minie.helloagaincrm.logged;
+package com.jeremy_minie.helloagaincrm.logged.fragments;
 
 
 import android.content.Context;
@@ -10,6 +10,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.jeremy_minie.helloagaincrm.R;
+import com.jeremy_minie.helloagaincrm.logged.entities.User;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;

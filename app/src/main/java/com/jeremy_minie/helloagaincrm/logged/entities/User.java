@@ -1,4 +1,4 @@
-package com.jeremy_minie.helloagaincrm.logged;
+package com.jeremy_minie.helloagaincrm.logged.entities;
 
 /**
  * Created by jminie on 13/10/2015.

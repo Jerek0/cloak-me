@@ -1,11 +1,11 @@
-package com.jeremy_minie.helloagaincrm;
+package com.jeremy_minie.helloagaincrm.util;
 
 import android.util.Log;
 
 import com.firebase.client.AuthData;
 import com.firebase.client.Firebase;
 import com.firebase.client.FirebaseError;
-import com.jeremy_minie.helloagaincrm.logged.User;
+import com.jeremy_minie.helloagaincrm.logged.entities.User;
 
 import java.util.Map;
 

@@ -10,8 +10,9 @@ import android.view.MenuItem;
 import android.view.View;
 
 import com.firebase.client.FirebaseError;
-import com.jeremy_minie.helloagaincrm.FirebaseManager;
+import com.jeremy_minie.helloagaincrm.util.FirebaseManager;
 import com.jeremy_minie.helloagaincrm.R;
+import com.jeremy_minie.helloagaincrm.home.fragments.RegisterFragment;
 
 import java.util.Map;
 

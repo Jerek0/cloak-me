@@ -1,4 +1,4 @@
-package com.jeremy_minie.helloagaincrm.home;
+package com.jeremy_minie.helloagaincrm.home.fragments;
 
 
 import android.content.Context;

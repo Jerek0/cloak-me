@@ -9,8 +9,9 @@ import android.view.View;
 
 import com.firebase.client.AuthData;
 import com.firebase.client.FirebaseError;
-import com.jeremy_minie.helloagaincrm.FirebaseManager;
+import com.jeremy_minie.helloagaincrm.util.FirebaseManager;
 import com.jeremy_minie.helloagaincrm.R;
+import com.jeremy_minie.helloagaincrm.home.fragments.LoginFragment;
 import com.jeremy_minie.helloagaincrm.logged.LoggedActivity;
 
 public class MainActivity extends AppCompatActivity implements LoginFragment.LoginListener, FirebaseManager.FirebaseAuthListener {

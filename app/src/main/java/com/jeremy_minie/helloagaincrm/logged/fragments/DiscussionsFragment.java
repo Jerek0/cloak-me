@@ -1,4 +1,4 @@
-package com.jeremy_minie.helloagaincrm.logged;
+package com.jeremy_minie.helloagaincrm.logged.fragments;
 
 
 import android.os.Bundle;

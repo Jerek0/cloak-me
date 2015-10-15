@@ -1,4 +1,4 @@
-package com.jeremy_minie.helloagaincrm.home;
+package com.jeremy_minie.helloagaincrm.home.fragments;
 
 import android.content.Context;
 import android.os.Bundle;
@@ -23,8 +23,10 @@ public class LoginFragment extends Fragment {
     private static final String TAG = "LoginFragment";
     private LoginListener mListener;
 
-    @Bind(R.id.loginMail) TextView mLoginMail;
-    @Bind(R.id.loginPassword) TextView mLoginPassword;
+    @Bind(R.id.loginMail)
+    public TextView mLoginMail;
+    @Bind(R.id.loginPassword)
+    public TextView mLoginPassword;
 
     public LoginFragment() {
         // Required empty public constructor

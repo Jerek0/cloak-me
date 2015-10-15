@@ -1,9 +1,12 @@
-package com.jeremy_minie.helloagaincrm.logged;
+package com.jeremy_minie.helloagaincrm.logged.util;
 
 import android.content.Context;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
+
+import com.jeremy_minie.helloagaincrm.logged.fragments.DiscussionsFragment;
+import com.jeremy_minie.helloagaincrm.logged.fragments.ProfileFragment;
 
 /**
  * Created by jerek0 on 15/10/15.
