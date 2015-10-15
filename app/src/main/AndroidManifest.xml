@@ -12,7 +12,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme" >
         <activity
-            android:name=".MainActivity"
+            android:name=".home.MainActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar"
             android:launchMode="singleTop" >
@@ -20,11 +20,11 @@
         <activity
             android:name=".user.UserActivity"
             android:label="test"
-            android:parentActivityName=".MainActivity"
+            android:parentActivityName=".home.MainActivity"
             android:screenOrientation="portrait">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".MainActivity" />
+                android:value=".home.MainActivity" />
         </activity>
         <activity
             android:name=".SplashScreen"
@@ -36,8 +36,8 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".RegisterActivity"
-            android:parentActivityName=".MainActivity">
+            android:name=".home.RegisterActivity"
+            android:parentActivityName=".home.MainActivity">
         </activity>
     </application>
 

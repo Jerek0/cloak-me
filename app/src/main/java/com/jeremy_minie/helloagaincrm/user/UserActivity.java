@@ -11,7 +11,7 @@ import android.view.View;
 
 import com.jeremy_minie.helloagaincrm.FirebaseManager;
 import com.jeremy_minie.helloagaincrm.R;
-import com.jeremy_minie.helloagaincrm.MainActivity;
+import com.jeremy_minie.helloagaincrm.home.MainActivity;
 
 public class UserActivity extends AppCompatActivity {
 

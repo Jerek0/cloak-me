@@ -5,6 +5,8 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 
+import com.jeremy_minie.helloagaincrm.home.MainActivity;
+
 public class SplashScreen extends Activity {
 
     private static final long SPLASH_TIME_OUT = 3000;

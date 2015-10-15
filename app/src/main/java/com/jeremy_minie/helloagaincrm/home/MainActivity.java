@@ -1,23 +1,19 @@
-package com.jeremy_minie.helloagaincrm;
+package com.jeremy_minie.helloagaincrm.home;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
 import android.util.Log;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
 
 import com.firebase.client.AuthData;
 import com.firebase.client.FirebaseError;
+import com.jeremy_minie.helloagaincrm.FirebaseManager;
+import com.jeremy_minie.helloagaincrm.R;
 import com.jeremy_minie.helloagaincrm.home.LoginFragment;
-import com.jeremy_minie.helloagaincrm.home.RegisterFragment;
+import com.jeremy_minie.helloagaincrm.home.RegisterActivity;
 import com.jeremy_minie.helloagaincrm.user.UserActivity;
-
-import java.util.Map;
 
 public class MainActivity extends AppCompatActivity implements LoginFragment.LoginListener, FirebaseManager.FirebaseAuthListener {
 
@@ -26,16 +22,21 @@ public class MainActivity extends AppCompatActivity implements LoginFragment.Log
     public static final String PASSWORD = TAG+".password";
     public static final String MAIL = TAG+".mail";
 
+    private LoginFragment fragment;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         this.setContentView(R.layout.activity_main);
 
         // Adds login fragment
-        LoginFragment fragment = new LoginFragment();
+        fragment = new LoginFragment();
         getSupportFragmentManager().beginTransaction().add(R.id.mainContainer, fragment).commit();
+    }
 
-        Intent intent = getIntent();
+    @Override
+    protected void onNewIntent(Intent intent) {
+        super.onNewIntent(intent);
 
         if(intent.getStringExtra(RegisterActivity.INFO) != null) {
             Snackbar.make(findViewById(R.id.mainContainer), intent.getStringExtra(RegisterActivity.INFO), Snackbar.LENGTH_SHORT)
@@ -46,6 +47,12 @@ public class MainActivity extends AppCompatActivity implements LoginFragment.Log
                         }
                     })
                     .show();
+        }
+        if(intent.getStringExtra(RegisterActivity.MAIL) != null) {
+            fragment.mLoginMail.setText(intent.getStringExtra(RegisterActivity.MAIL));
+        }
+        if(intent.getStringExtra(RegisterActivity.PWD) != null) {
+            fragment.mLoginPassword.setText(intent.getStringExtra(RegisterActivity.PWD));
         }
     }
 
