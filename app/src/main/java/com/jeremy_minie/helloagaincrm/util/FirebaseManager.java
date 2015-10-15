@@ -3,8 +3,10 @@ package com.jeremy_minie.helloagaincrm.util;
 import android.util.Log;
 
 import com.firebase.client.AuthData;
+import com.firebase.client.DataSnapshot;
 import com.firebase.client.Firebase;
 import com.firebase.client.FirebaseError;
+import com.firebase.client.ValueEventListener;
 import com.jeremy_minie.helloagaincrm.logged.entities.User;
 
 import java.util.Map;
@@ -30,7 +32,7 @@ public class FirebaseManager {
         ref.authWithPassword(mail, password, new Firebase.AuthResultHandler() {
             @Override
             public void onAuthenticated(AuthData authData) {
-                listener.onSuccessAuth(authData);
+                getUserByUid(authData.getUid(), listener);
             }
             @Override
             public void onAuthenticationError(FirebaseError firebaseError) {
@@ -58,8 +60,35 @@ public class FirebaseManager {
         ref.unauth();
     }
 
+    public void getUserByUid(final String uid, final FirebaseAuthListener listener) {
+        ref.child("users/" + uid).addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot snapshot) {
+                user = snapshot.getValue(User.class);
+                user.setUid(uid);
+                listener.onSuccessAuth();
+            }
+
+            @Override
+            public void onCancelled(FirebaseError firebaseError) {
+                System.out.println("The read failed: " + firebaseError.getMessage());
+            }
+        });
+    }
+
+    public void generateUser(String uid, String username, String mail) {
+        Firebase userRef = ref.child("users").child(uid);
+        user = new User(uid, username, mail);
+        userRef.child("username").setValue(username);
+        userRef.child("mail").setValue(mail);
+    }
+
+    public User getUser() {
+        return user;
+    }
+
     public interface FirebaseAuthListener {
-        void onSuccessAuth(AuthData authData);
+        void onSuccessAuth();
         void onError(FirebaseError firebaseError);
     }
 

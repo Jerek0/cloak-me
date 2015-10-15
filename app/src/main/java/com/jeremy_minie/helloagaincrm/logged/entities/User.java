@@ -4,25 +4,31 @@ package com.jeremy_minie.helloagaincrm.logged.entities;
  * Created by jminie on 13/10/2015.
  */
 public class User {
-    private CharSequence username;
-    private CharSequence mail;
-    private CharSequence password;
+    private String username;
+    private String mail;
+    private String uid;
 
-    public User(CharSequence u, CharSequence m, CharSequence p) {
-        username = u;
-        mail = m;
-        password = p;
+    public User() {}
+
+    public User(String uid, String username, String mail) {
+        this.uid = uid;
+        this.username = username;
+        this.mail = mail;
     }
 
-    public CharSequence getUsername() {
+    public String getUsername() {
         return username;
     }
 
-    public CharSequence getMail() {
+    public String getMail() {
         return mail;
     }
 
-    public CharSequence getPassword() {
-        return password;
+    public String getUid() {
+        return uid;
+    }
+
+    public void setUid(String uid) {
+        this.uid = uid;
     }
 }

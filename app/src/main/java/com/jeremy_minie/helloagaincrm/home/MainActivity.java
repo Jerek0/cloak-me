@@ -68,11 +68,8 @@ public class MainActivity extends AppCompatActivity implements LoginFragment.Log
     }
 
     @Override
-    public void onSuccessAuth(AuthData authData) {
-        System.out.println("User ID: " + authData.getUid() + ", Provider: " + authData.getProvider());
-
+    public void onSuccessAuth() {
         Intent intent = new Intent(this, LoggedActivity.class);
-        intent.putExtra(MAIL, authData.getProviderData().get("email").toString());
         startActivity(intent);
     }
 

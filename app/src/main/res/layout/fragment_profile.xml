@@ -14,67 +14,35 @@
         android:adjustViewBounds="true"
         />
 
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:padding="20dp">
+        <android.support.design.widget.TextInputLayout
+            android:id="@+id/profileUserNameLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:layout_centerHorizontal="true">
 
-    <android.support.design.widget.TextInputLayout
-        android:id="@+id/profileUserNameLayout"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
-        android:layout_centerHorizontal="true">
+            <EditText
+                android:id="@+id/profileUserName"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="81dp"
+                android:ems="10"
+                android:hint="@string/userNameHint" />
 
-        <EditText
-            android:id="@+id/profileUserName"
+        </android.support.design.widget.TextInputLayout>
+
+        <Button
+            android:id="@+id/profileButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="81dp"
-            android:ems="10"
-            android:hint="@string/userNameHint" />
-
-    </android.support.design.widget.TextInputLayout>
-
-    <android.support.design.widget.TextInputLayout
-        android:id="@+id/profileMailLayout"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/profileUserNameLayout"
-        android:layout_centerHorizontal="true">
-
-        <EditText
-            android:id="@+id/profileMail"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="81dp"
-            android:ems="10"
-            android:hint="@string/mailHint"
-            android:inputType="textEmailAddress" />
-
-    </android.support.design.widget.TextInputLayout>
-
-    <android.support.design.widget.TextInputLayout
-        android:id="@+id/profilePasswordLayout"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/profileMailLayout"
-        android:layout_centerHorizontal="true">
-
-        <EditText
-            android:id="@+id/profilePassword"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:ems="10"
-            android:hint="@string/passwordHint"
-            android:inputType="textPassword" />
-
-    </android.support.design.widget.TextInputLayout>
-
-    <Button
-        android:id="@+id/profileButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignEnd="@+id/profilePasswordLayout"
-        android:layout_alignRight="@+id/profilePasswordLayout"
-        android:layout_below="@+id/profilePasswordLayout"
-        android:layout_marginTop="25dp"
-        android:text="@string/modifyLabel" />
+            android:layout_below="@+id/profileUserNameLayout"
+            android:layout_marginTop="25dp"
+            android:layout_centerHorizontal="true"
+            android:text="@string/modifyLabel" />
+    </RelativeLayout>
 
 </RelativeLayout>

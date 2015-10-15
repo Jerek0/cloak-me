@@ -13,6 +13,7 @@ import com.firebase.client.FirebaseError;
 import com.jeremy_minie.helloagaincrm.util.FirebaseManager;
 import com.jeremy_minie.helloagaincrm.R;
 import com.jeremy_minie.helloagaincrm.home.fragments.RegisterFragment;
+import com.jeremy_minie.helloagaincrm.util.UsernameGenerator;
 
 import java.util.Map;
 
@@ -64,6 +65,8 @@ public class RegisterActivity extends AppCompatActivity implements RegisterFragm
     @Override
     public void onSuccessRegister(Map<String, Object> stringObjectMap) {
         System.out.println("Successfully created user account with uid: " + stringObjectMap.get("uid"));
+
+        FirebaseManager.getInstance().generateUser(stringObjectMap.get("uid").toString(), UsernameGenerator.getInstance().newUsername(), current_mail);
 
         Intent intent = new Intent(this, MainActivity.class);
         intent.putExtra(INFO, "You are now registered, please login");
