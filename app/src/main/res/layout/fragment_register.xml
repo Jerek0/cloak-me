@@ -3,59 +3,69 @@
     android:layout_height="match_parent"
     tools:context="com.jeremy_minie.helloagaincrm.home.fragments.RegisterFragment">
 
-    <TextView
-        android:id="@+id/registerTitle"
+
+    <RelativeLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
-        android:layout_marginTop="60dp"
-        android:text="@string/register"
         android:layout_centerHorizontal="true"
-        android:textAppearance="?android:attr/textAppearanceLarge" />
-
-    <android.support.design.widget.TextInputLayout
-        android:id="@+id/registerMailLayout"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/registerTitle"
-        android:layout_marginTop="20dp"
-        android:layout_centerHorizontal="true">
-
-    <EditText
-            android:id="@+id/registerMail"
+        android:layout_centerVertical="true">
+        <TextView
+            android:id="@+id/registerTitle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="81dp"
-            android:ems="10"
-            android:hint="@string/mailHint"
-            android:inputType="textEmailAddress" />
+            android:layout_alignParentTop="true"
+            android:text="@string/register"
+            android:layout_centerHorizontal="true"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:textAllCaps="true"
+            />
 
-    </android.support.design.widget.TextInputLayout>
-
-    <android.support.design.widget.TextInputLayout
-        android:id="@+id/registerPasswordLayout"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/registerMailLayout"
-        android:layout_centerHorizontal="true">
+        <android.support.design.widget.TextInputLayout
+            android:id="@+id/registerMailLayout"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/registerTitle"
+            android:layout_marginTop="40dp"
+            android:layout_centerHorizontal="true">
 
         <EditText
-            android:id="@+id/registerPassword"
+                android:id="@+id/registerMail"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="81dp"
+                android:ems="10"
+                android:hint="@string/mailHint"
+                android:inputType="textEmailAddress" />
+
+        </android.support.design.widget.TextInputLayout>
+
+        <android.support.design.widget.TextInputLayout
+            android:id="@+id/registerPasswordLayout"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:ems="10"
-            android:hint="@string/passwordHint"
-            android:inputType="textPassword" />
+            android:layout_below="@id/registerMailLayout"
+            android:layout_centerHorizontal="true">
 
-    </android.support.design.widget.TextInputLayout>
+            <EditText
+                android:id="@+id/registerPassword"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:ems="10"
+                android:hint="@string/passwordHint"
+                android:inputType="textPassword" />
 
-    <Button
-        android:id="@+id/registerButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/registerPasswordLayout"
-        android:layout_marginTop="25dp"
-        android:layout_centerHorizontal="true"
-        android:text="@string/registerLabel" />
+        </android.support.design.widget.TextInputLayout>
+
+        <Button
+            android:id="@+id/registerButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/registerPasswordLayout"
+            android:layout_marginTop="40dp"
+            android:layout_centerHorizontal="true"
+            android:text="@string/registerLabel"
+            style="@style/Widget.AppCompat.Button.Colored"/>
+
+    </RelativeLayout>
 
 </RelativeLayout>

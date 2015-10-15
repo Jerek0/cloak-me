@@ -17,4 +17,8 @@
 
     </style>
 
+    <style name="PrimaryButton" parent="Widget.AppCompat.Button">
+        <item name="android:colorBackground">@color/colorAccent</item>
+    </style>
+
 </resources>

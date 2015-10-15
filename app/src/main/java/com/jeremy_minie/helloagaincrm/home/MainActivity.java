@@ -1,11 +1,14 @@
 package com.jeremy_minie.helloagaincrm.home;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
+import android.util.AttributeSet;
 import android.util.Log;
 import android.view.View;
+import android.widget.TextView;
 
 import com.firebase.client.AuthData;
 import com.firebase.client.FirebaseError;
@@ -13,6 +16,10 @@ import com.jeremy_minie.helloagaincrm.util.FirebaseManager;
 import com.jeremy_minie.helloagaincrm.R;
 import com.jeremy_minie.helloagaincrm.home.fragments.LoginFragment;
 import com.jeremy_minie.helloagaincrm.logged.LoggedActivity;
+import com.jeremy_minie.helloagaincrm.util.QuotesFactory;
+
+import butterknife.Bind;
+import butterknife.ButterKnife;
 
 public class MainActivity extends AppCompatActivity implements LoginFragment.LoginListener, FirebaseManager.FirebaseAuthListener {
 
@@ -23,6 +30,9 @@ public class MainActivity extends AppCompatActivity implements LoginFragment.Log
 
     private LoginFragment fragment;
 
+    @Bind(R.id.quoteCarousel)
+    TextView mQuoteCarousel;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -31,6 +41,15 @@ public class MainActivity extends AppCompatActivity implements LoginFragment.Log
         // Adds login fragment
         fragment = new LoginFragment();
         getSupportFragmentManager().beginTransaction().add(R.id.mainContainer, fragment).commit();
+
+        ButterKnife.bind(this);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+        mQuoteCarousel.setText(QuotesFactory.getInstance().randomQuote());
     }
 
     @Override
@@ -69,12 +88,14 @@ public class MainActivity extends AppCompatActivity implements LoginFragment.Log
 
     @Override
     public void onSuccessAuth() {
+        fragment.mLoginButton.setEnabled(true);
         Intent intent = new Intent(this, LoggedActivity.class);
         startActivity(intent);
     }
 
     @Override
     public void onError(FirebaseError firebaseError) {
+        fragment.mLoginButton.setEnabled(true);
         Log.e(TAG, firebaseError.toString());
         Snackbar.make(findViewById(R.id.mainContainer), firebaseError.getMessage(), Snackbar.LENGTH_SHORT)
                 .setAction("DISMISS", new View.OnClickListener() {

@@ -27,6 +27,8 @@ public class RegisterActivity extends AppCompatActivity implements RegisterFragm
     private String current_mail;
     private String current_pwd;
 
+    private RegisterFragment fragment;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -39,7 +41,7 @@ public class RegisterActivity extends AppCompatActivity implements RegisterFragm
         getSupportActionBar().setHomeAsUpIndicator(android.R.drawable.ic_menu_close_clear_cancel);
 
         // Adds register fragment
-        RegisterFragment fragment = new RegisterFragment();
+        fragment = new RegisterFragment();
         getSupportFragmentManager().beginTransaction().add(R.id.mainContainer, fragment).commit();
     }
 
@@ -64,6 +66,7 @@ public class RegisterActivity extends AppCompatActivity implements RegisterFragm
 
     @Override
     public void onSuccessRegister(Map<String, Object> stringObjectMap) {
+        fragment.mRegisterButton.setEnabled(true);
         System.out.println("Successfully created user account with uid: " + stringObjectMap.get("uid"));
 
         FirebaseManager.getInstance().generateUser(stringObjectMap.get("uid").toString(), UsernameGenerator.getInstance().newUsername(), current_mail);
@@ -80,6 +83,7 @@ public class RegisterActivity extends AppCompatActivity implements RegisterFragm
 
     @Override
     public void onError(FirebaseError firebaseError) {
+        fragment.mRegisterButton.setEnabled(true);
         Log.e(TAG, firebaseError.toString());
         Snackbar.make(findViewById(R.id.mainContainer), firebaseError.getMessage(), Snackbar.LENGTH_SHORT)
                 .setAction("DISMISS", new View.OnClickListener() {

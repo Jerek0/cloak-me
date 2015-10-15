@@ -6,6 +6,7 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.TextView;
 
 import com.jeremy_minie.helloagaincrm.R;
@@ -27,6 +28,8 @@ public class LoginFragment extends Fragment {
     public TextView mLoginMail;
     @Bind(R.id.loginPassword)
     public TextView mLoginPassword;
+    @Bind(R.id.loginButton)
+    public Button mLoginButton;
 
     public LoginFragment() {
         // Required empty public constructor
@@ -54,6 +57,7 @@ public class LoginFragment extends Fragment {
 
     @OnClick(R.id.loginButton)
     void onLoginClick() {
+        mLoginButton.setEnabled(false);
         mListener.onLoginClicked(mLoginMail.getText(), mLoginPassword.getText());
     }
 

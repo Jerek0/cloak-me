@@ -7,6 +7,7 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.TextView;
 
 import com.jeremy_minie.helloagaincrm.R;
@@ -25,6 +26,8 @@ public class RegisterFragment extends Fragment {
 
     @Bind(R.id.registerMail) TextView mRegisterMail;
     @Bind(R.id.registerPassword) TextView mRegisterPassword;
+    @Bind(R.id.registerButton)
+    public Button mRegisterButton;
 
     public RegisterFragment() {
         // Required empty public constructor
@@ -51,7 +54,10 @@ public class RegisterFragment extends Fragment {
     }
 
     @OnClick(R.id.registerButton)
-    void onClick() { mListener.onRegisterClicked(mRegisterMail.getText(), mRegisterPassword.getText()); }
+    void onClick() {
+        mRegisterButton.setEnabled(false);
+        mListener.onRegisterClicked(mRegisterMail.getText(), mRegisterPassword.getText());
+    }
 
     public interface RegisterListener {
         void onRegisterClicked(CharSequence mail, CharSequence password);
