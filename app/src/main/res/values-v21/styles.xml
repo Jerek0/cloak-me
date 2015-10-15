@@ -13,5 +13,7 @@
         <item name="colorPrimaryDark">@color/holo_purple</item>
         <item name="colorAccent">@color/colorAccent</item>
         <item name="android:statusBarColor">@color/statusBarColor</item>
+        <item name="android:colorBackground">@color/background_material_dark</item>
+        <item name="android:navigationBarColor">@android:color/transparent</item>
     </style>
 </resources>
