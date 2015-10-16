@@ -14,6 +14,7 @@ import java.util.List;
  */
 public class User {
     private String username;
+    private String username_lower_case;
     private String mail;
     private String uid;
     private String avatar;
@@ -74,5 +75,9 @@ public class User {
 
     public void setUsername(String value) {
         this.username = value;
+    }
+
+    public String getUsername_lower_case() {
+        return username_lower_case;
     }
 }

@@ -6,6 +6,7 @@ import com.firebase.client.AuthData;
 import com.firebase.client.DataSnapshot;
 import com.firebase.client.Firebase;
 import com.firebase.client.FirebaseError;
+import com.firebase.client.Query;
 import com.firebase.client.ValueEventListener;
 import com.jeremy_minie.helloagaincrm.logged.entities.User;
 import com.jeremy_minie.helloagaincrm.logged.fragments.ProfileFragment;
@@ -94,11 +95,32 @@ public class FirebaseManager {
         });
     }
 
+    public void getUsersByName(String name, final FirebaseDataListener listener) {
+        Query queryRef;
+        if(name.length()>0)
+            queryRef = ref.child("users").orderByChild("username_lower_case").startAt(name.toLowerCase() + "").endAt(name.toLowerCase() + "\uf8ff");
+        else
+            queryRef = ref.child("users").orderByChild("username_lower_case");
+
+        queryRef.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                listener.onDataChanged(dataSnapshot);
+            }
+
+            @Override
+            public void onCancelled(FirebaseError firebaseError) {
+                listener.onCancelled(firebaseError);
+            }
+        });
+    }
+
     public void generateUser(String uid, String mail) {
         Firebase userRef = ref.child("users").child(uid);
         user = new User(uid, UsernameGenerator.getInstance().newUsername(), mail);
         user.setColor(-12813891);
         userRef.child("username").setValue(user.getUsername());
+        userRef.child("username_lower_case").setValue(user.getUsername().toLowerCase());
         userRef.child("mail").setValue(user.getMail());
         userRef.child("color").setValue(user.getColor());
     }
@@ -108,6 +130,7 @@ public class FirebaseManager {
 
         Map<String, Object> userMap = new HashMap<String, Object>();
         userMap.put("username", getUser().getUsername());
+        userMap.put("username_lower_case", getUser().getUsername().toLowerCase());
         userMap.put("color", getUser().getColor());
         userRef.updateChildren(userMap, new Firebase.CompletionListener() {
             @Override

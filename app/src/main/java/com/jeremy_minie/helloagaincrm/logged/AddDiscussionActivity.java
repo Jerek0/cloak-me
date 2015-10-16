@@ -11,6 +11,7 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.EditText;
 
 import com.firebase.client.DataSnapshot;
 import com.firebase.client.FirebaseError;
@@ -22,14 +23,22 @@ import com.jeremy_minie.helloagaincrm.util.FirebaseManager;
 import java.util.ArrayList;
 import java.util.List;
 
+import butterknife.Bind;
+import butterknife.ButterKnife;
+import butterknife.OnTextChanged;
+
 public class AddDiscussionActivity extends AppCompatActivity implements FirebaseManager.FirebaseDataListener {
 
     private static final String TAG = "AddDiscussionActivity";
+
+    @Bind(R.id.usersSearch) EditText mUsersSearch;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_discussion);
+
+        ButterKnife.bind(this);
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         toolbar.setTitle("New discussion");
@@ -64,6 +73,10 @@ public class AddDiscussionActivity extends AppCompatActivity implements Firebase
             usersList.add(user);
         }
 
+        updateAdapter(usersList);
+    }
+
+    private void updateAdapter(List<User> usersList) {
         // Lookup the recyclerview in activity layout
         RecyclerView rvContacts = (RecyclerView) findViewById(R.id.rvUsers);
         // Create adapter passing in the sample user data
@@ -73,6 +86,12 @@ public class AddDiscussionActivity extends AppCompatActivity implements Firebase
         // Set layout manager to position the items
         rvContacts.setLayoutManager(new LinearLayoutManager(this));
         // That's all!
+    }
+
+    @OnTextChanged(R.id.usersSearch)
+    void onUserSearch() {
+        System.out.println("Text changed : " + mUsersSearch.getText().toString());
+        FirebaseManager.getInstance().getUsersByName(mUsersSearch.getText().toString(), this);
     }
 
     @Override
