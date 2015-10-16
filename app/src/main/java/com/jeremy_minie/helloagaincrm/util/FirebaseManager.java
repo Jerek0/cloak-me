@@ -32,6 +32,7 @@ public class FirebaseManager {
         ref.authWithPassword(mail, password, new Firebase.AuthResultHandler() {
             @Override
             public void onAuthenticated(AuthData authData) {
+                ref.child("users/"+authData.getUid() + "/avatar").setValue(authData.getProviderData().get("profileImageURL"));
                 getUserByUid(authData.getUid(), listener);
             }
             @Override
@@ -60,12 +61,13 @@ public class FirebaseManager {
         ref.unauth();
     }
 
-    public void getUserByUid(final String uid, final FirebaseAuthListener listener) {
+    public void getUserByUid(String uid, final FirebaseAuthListener listener) {
         ref.child("users/" + uid).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot snapshot) {
+                System.out.println(snapshot);
                 user = snapshot.getValue(User.class);
-                user.setUid(uid);
+                user.setUid(snapshot.getKey());
                 listener.onSuccessAuth();
             }
 

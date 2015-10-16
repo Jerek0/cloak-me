@@ -33,7 +33,7 @@
         </activity>
         <activity
             android:name=".logged.LoggedActivity"
-            android:screenOrientation="portrait">
+            android:screenOrientation="portrait" >
         </activity>
     </application>
 

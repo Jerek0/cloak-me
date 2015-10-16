@@ -7,6 +7,7 @@ public class User {
     private String username;
     private String mail;
     private String uid;
+    private String avatar;
 
     public User() {}
 
@@ -30,5 +31,13 @@ public class User {
 
     public void setUid(String uid) {
         this.uid = uid;
+    }
+
+    public String getAvatar() {
+        return avatar;
+    }
+
+    public void setAvatar(String avatar) {
+        this.avatar = avatar;
     }
 }
