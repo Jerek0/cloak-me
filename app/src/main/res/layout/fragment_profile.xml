@@ -4,7 +4,6 @@
     tools:context="com.jeremy_minie.helloagaincrm.home.ProfileFragment">
 
     <ImageView
-        android:id="@+id/imageView"
         android:layout_centerVertical="true"
         android:layout_centerHorizontal="true"
         android:src="@drawable/back_data_blurred"
@@ -14,26 +13,79 @@
         android:adjustViewBounds="true"
         />
 
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:padding="20dp">
+        android:layout_height="wrap_content"
+        >
 
-        <ImageView
-            android:layout_width="150dp"
-            android:layout_height="150dp"
-            android:id="@+id/avatar"
-            android:layout_centerHorizontal="true"
-            android:layout_marginTop="20dp"
+        <RelativeLayout
+            android:id="@+id/profileHeader"
+            android:layout_width="match_parent"
+            android:layout_height="250dp"
+            android:background="@color/colorPrimaryDark">
 
-            />
+            <ImageView
+                android:layout_width="150dp"
+                android:layout_height="150dp"
+                android:id="@+id/avatar"
+                android:layout_centerHorizontal="true"
+                android:layout_centerVertical="true"
+                />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="20dp"
+                android:layout_alignParentBottom="true"
+                android:orientation="horizontal">
+
+                <FrameLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:id="@+id/profileColor1"
+                    android:background="@color/profileColor1">
+                </FrameLayout>
+
+                <FrameLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:id="@+id/profileColor2"
+                    android:background="@color/profileColor2">
+                </FrameLayout>
+
+                <FrameLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:id="@+id/profileColor3"
+                    android:background="@color/profileColor3">
+                </FrameLayout>
+
+                <FrameLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:id="@+id/profileColor4"
+                    android:background="@color/profileColor4">
+                </FrameLayout>
+            </LinearLayout>
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="20dp"
+            android:layout_below="@id/profileHeader"
+            >
 
         <android.support.design.widget.TextInputLayout
             android:id="@+id/profileUserNameLayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@id/avatar"
-            android:layout_marginTop="30dp"
             android:layout_centerHorizontal="true">
 
             <EditText
@@ -55,6 +107,18 @@
             android:layout_centerHorizontal="true"
             android:text="@string/modifyLabel"
             style="@style/Widget.AppCompat.Button.Colored"/>
+
+        <TextView
+            android:id="@+id/avatarHint"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textAlignment="center"
+            android:textStyle="italic"
+            android:layout_below="@id/profileButton"
+            android:layout_marginTop="25dp"
+            android:text="You can change your avatar on Gravatar by using your mail address"/>
+        </RelativeLayout>
     </RelativeLayout>
+    </ScrollView>
 
 </RelativeLayout>

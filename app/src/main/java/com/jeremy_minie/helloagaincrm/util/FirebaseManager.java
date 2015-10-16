@@ -8,7 +8,9 @@ import com.firebase.client.Firebase;
 import com.firebase.client.FirebaseError;
 import com.firebase.client.ValueEventListener;
 import com.jeremy_minie.helloagaincrm.logged.entities.User;
+import com.jeremy_minie.helloagaincrm.logged.fragments.ProfileFragment;
 
+import java.util.HashMap;
 import java.util.Map;
 
 /**
@@ -78,11 +80,31 @@ public class FirebaseManager {
         });
     }
 
-    public void generateUser(String uid, String username, String mail) {
+    public void generateUser(String uid, String mail) {
         Firebase userRef = ref.child("users").child(uid);
-        user = new User(uid, username, mail);
-        userRef.child("username").setValue(username);
-        userRef.child("mail").setValue(mail);
+        user = new User(uid, UsernameGenerator.getInstance().newUsername(), mail);
+        user.setColor(-12813891);
+        userRef.child("username").setValue(user.getUsername());
+        userRef.child("mail").setValue(user.getMail());
+        userRef.child("color").setValue(user.getColor());
+    }
+
+    public void saveUser(final ProfileFragment listener) {
+        Firebase userRef = ref.child("users").child(getUser().getUid());
+
+        Map<String, Object> userMap = new HashMap<String, Object>();
+        userMap.put("username", getUser().getUsername());
+        userMap.put("color", getUser().getColor());
+        userRef.updateChildren(userMap, new Firebase.CompletionListener() {
+            @Override
+            public void onComplete(FirebaseError firebaseError, Firebase firebase) {
+                if (firebaseError != null) {
+                    listener.onUpdateError(firebaseError.getMessage());
+                } else {
+                    listener.onUpdateSuccess();
+                }
+            }
+        });
     }
 
     public User getUser() {
