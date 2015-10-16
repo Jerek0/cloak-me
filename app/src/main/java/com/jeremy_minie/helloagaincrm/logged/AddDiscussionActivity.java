@@ -18,6 +18,7 @@ import com.firebase.client.FirebaseError;
 import com.jeremy_minie.helloagaincrm.R;
 import com.jeremy_minie.helloagaincrm.logged.entities.User;
 import com.jeremy_minie.helloagaincrm.logged.entities.UsersAdapter;
+import com.jeremy_minie.helloagaincrm.util.Debounce;
 import com.jeremy_minie.helloagaincrm.util.FirebaseManager;
 
 import java.util.ArrayList;
@@ -30,6 +31,7 @@ import butterknife.OnTextChanged;
 public class AddDiscussionActivity extends AppCompatActivity implements FirebaseManager.FirebaseDataListener {
 
     private static final String TAG = "AddDiscussionActivity";
+    private SearchDebouncer debouncer;
 
     @Bind(R.id.usersSearch) EditText mUsersSearch;
 
@@ -47,6 +49,7 @@ public class AddDiscussionActivity extends AppCompatActivity implements Firebase
         getSupportActionBar().setHomeAsUpIndicator(android.R.drawable.ic_menu_close_clear_cancel);
 
         FirebaseManager.getInstance().getUsersList(this);
+        debouncer = new SearchDebouncer(600,100);
     }
 
     @Override
@@ -91,7 +94,8 @@ public class AddDiscussionActivity extends AppCompatActivity implements Firebase
     @OnTextChanged(R.id.usersSearch)
     void onUserSearch() {
         System.out.println("Text changed : " + mUsersSearch.getText().toString());
-        FirebaseManager.getInstance().getUsersByName(mUsersSearch.getText().toString(), this);
+        //FirebaseManager.getInstance().getUsersByName(mUsersSearch.getText().toString(), this);
+        debouncer.hit();
     }
 
     @Override
@@ -103,5 +107,17 @@ public class AddDiscussionActivity extends AppCompatActivity implements Firebase
                     }
                 })
                 .show();;
+    }
+
+    public class SearchDebouncer extends Debounce {
+
+        public SearchDebouncer(long debounceDelay, long checkDelay) {
+            super(debounceDelay, checkDelay);
+        }
+
+        @Override
+        public void execute() {
+            FirebaseManager.getInstance().getUsersByName(mUsersSearch.getText().toString(), AddDiscussionActivity.this);
+        }
     }
 }
