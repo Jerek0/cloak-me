@@ -7,6 +7,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.jeremy_minie.helloagaincrm.R;
@@ -20,25 +21,48 @@ import java.util.List;
  */
 public class UsersAdapter extends RecyclerView.Adapter<UsersAdapter.ViewHolder> {
 
+    private OnItemClickListener listener;
+
+    // Define the method that allows the parent activity or fragment to define the listener
+    public void setOnItemClickListener(OnItemClickListener listener) {
+        this.listener = listener;
+    }
+
     public static class ViewHolder extends RecyclerView.ViewHolder {
 
+        private static final String TAG = "UsersAdapter.ViewHolder";
         // Your holder should contain a member variable
         // for any view that will be set as you render a row
         public ImageView userAvatar;
         public TextView userName;
         public FrameLayout userColor;
 
+        private String uid;
+        private OnItemClickListener mListener;
 
         // We also create a constructor that accepts the entire item row
         // and does the view lookups to find each subview
-        public ViewHolder(View itemView) {
+        public ViewHolder(final View itemView, OnItemClickListener listener) {
             // Stores the itemView in a public final member variable that can be used
             // to access the context from any ViewHolder instance.
             super(itemView);
 
+            mListener = listener;
             userAvatar = (ImageView) itemView.findViewById(R.id.user_avatar);
             userName = (TextView) itemView.findViewById(R.id.user_name);
             userColor = (FrameLayout) itemView.findViewById(R.id.user_color);
+
+            itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if(mListener!= null)
+                        mListener.onItemClick(itemView, uid);
+                }
+            });
+        }
+
+        public void setUid(String uid) {
+            this.uid = uid;
         }
     }
 
@@ -60,7 +84,7 @@ public class UsersAdapter extends RecyclerView.Adapter<UsersAdapter.ViewHolder> 
         View contactView = inflater.inflate(R.layout.item_user, parent, false);
 
         // Return a new holder instance
-        ViewHolder viewHolder = new ViewHolder(contactView);
+        ViewHolder viewHolder = new ViewHolder(contactView, this.listener);
         return viewHolder;
     }
 
@@ -69,6 +93,8 @@ public class UsersAdapter extends RecyclerView.Adapter<UsersAdapter.ViewHolder> 
     public void onBindViewHolder(UsersAdapter.ViewHolder viewHolder, int position) {
         // Get the data model based on position
         User user = mUsers.get(position);
+
+        viewHolder.setUid(user.getUid());
 
         ImageView userAvatar = viewHolder.userAvatar;
         Picasso.with(viewHolder.itemView.getContext()).load(user.getAvatar()).transform(new CircleTransform()).into(userAvatar);
@@ -85,5 +111,9 @@ public class UsersAdapter extends RecyclerView.Adapter<UsersAdapter.ViewHolder> 
     @Override
     public int getItemCount() {
         return mUsers.size();
+    }
+
+    public interface OnItemClickListener {
+        void onItemClick(View itemView, String uid);
     }
 }

@@ -1,6 +1,5 @@
 package com.jeremy_minie.helloagaincrm.logged;
 
-import android.app.Activity;
 import android.os.Bundle;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
@@ -8,7 +7,6 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
-import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
@@ -28,7 +26,7 @@ import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnTextChanged;
 
-public class AddDiscussionActivity extends AppCompatActivity implements FirebaseManager.FirebaseDataListener {
+public class AddDiscussionActivity extends AppCompatActivity implements FirebaseManager.FirebaseDataListener, UsersAdapter.OnItemClickListener {
 
     private static final String TAG = "AddDiscussionActivity";
     private SearchDebouncer debouncer;
@@ -81,14 +79,16 @@ public class AddDiscussionActivity extends AppCompatActivity implements Firebase
 
     private void updateAdapter(List<User> usersList) {
         // Lookup the recyclerview in activity layout
-        RecyclerView rvContacts = (RecyclerView) findViewById(R.id.rvUsers);
+        RecyclerView rvUsers = (RecyclerView) findViewById(R.id.rvUsers);
         // Create adapter passing in the sample user data
         UsersAdapter adapter = new UsersAdapter(usersList);
+        adapter.setOnItemClickListener(this);
         // Attach the adapter to the recyclerview to populate items
-        rvContacts.setAdapter(adapter);
+        rvUsers.setAdapter(adapter);
         // Set layout manager to position the items
-        rvContacts.setLayoutManager(new LinearLayoutManager(this));
+        rvUsers.setLayoutManager(new LinearLayoutManager(this));
         // That's all!
+        rvUsers.setHasFixedSize(true);
     }
 
     @OnTextChanged(R.id.usersSearch)
@@ -107,6 +107,14 @@ public class AddDiscussionActivity extends AppCompatActivity implements Firebase
                     }
                 })
                 .show();;
+    }
+
+    @Override
+    public void onItemClick(View itemView, String uid) {
+        // TODO - New discussion on firebase
+        // TODO - Open new discussion directly with an intent
+        Log.d(TAG, "clicked on item "+uid);
+        finish();
     }
 
     public class SearchDebouncer extends Debounce {
