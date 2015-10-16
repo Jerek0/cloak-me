@@ -80,6 +80,20 @@ public class FirebaseManager {
         });
     }
 
+    public void getUsersList(final FirebaseDataListener listener) {
+        ref.child("users").addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                listener.onDataChanged(dataSnapshot);
+            }
+
+            @Override
+            public void onCancelled(FirebaseError firebaseError) {
+                listener.onCancelled(firebaseError);
+            }
+        });
+    }
+
     public void generateUser(String uid, String mail) {
         Firebase userRef = ref.child("users").child(uid);
         user = new User(uid, UsernameGenerator.getInstance().newUsername(), mail);
@@ -119,5 +133,10 @@ public class FirebaseManager {
     public interface FirebaseRegisterListener {
         void onSuccessRegister(Map<String, Object> stringObjectMap);
         void onError(FirebaseError firebaseError);
+    }
+
+    public interface FirebaseDataListener {
+        void onDataChanged(DataSnapshot snapshot);
+        void onCancelled(FirebaseError firebaseError);
     }
 }
