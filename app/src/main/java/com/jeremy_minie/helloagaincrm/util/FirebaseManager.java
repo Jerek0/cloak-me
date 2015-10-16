@@ -100,7 +100,7 @@ public class FirebaseManager {
         if(name.length()>0)
             queryRef = ref.child("users").orderByChild("username_lower_case").startAt(name.toLowerCase() + "").endAt(name.toLowerCase() + "\uf8ff");
         else
-            queryRef = ref.child("users").orderByChild("username_lower_case");
+            queryRef = ref.child("users");
 
         queryRef.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
