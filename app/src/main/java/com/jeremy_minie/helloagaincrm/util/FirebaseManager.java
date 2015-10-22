@@ -1,6 +1,5 @@
 package com.jeremy_minie.helloagaincrm.util;
 
-import android.support.annotation.NonNull;
 import android.util.Log;
 
 import com.firebase.client.AuthData;
@@ -10,6 +9,7 @@ import com.firebase.client.FirebaseError;
 import com.firebase.client.Query;
 import com.firebase.client.ValueEventListener;
 import com.jeremy_minie.helloagaincrm.logged.entities.User;
+import com.jeremy_minie.helloagaincrm.logged.entities.UserSecrets;
 import com.jeremy_minie.helloagaincrm.logged.fragments.ProfileFragment;
 import com.jeremy_minie.helloagaincrm.util.encryption.AesCryptoUtils;
 import com.jeremy_minie.helloagaincrm.util.encryption.RsaCryptoUtils;
@@ -42,14 +42,16 @@ public class FirebaseManager {
     private FirebaseManager() {
         ref = new Firebase("https://helloagaincrm.firebaseio.com/");
     }
-    private User user;
 
-    public void authWithPassword(String mail, String password, final FirebaseAuthListener listener) {
+    private User user;
+    private UserSecrets userSecrets;
+
+    public void authWithPassword(String mail, final String password, final FirebaseAuthListener listener) {
         ref.authWithPassword(mail, password, new Firebase.AuthResultHandler() {
             @Override
             public void onAuthenticated(AuthData authData) {
                 ref.child("users/" + authData.getUid() + "/avatar").setValue(authData.getProviderData().get("profileImageURL"));
-                getUserByUid(authData.getUid(), listener);
+                getUserByUid(authData.getUid(), listener, password);
             }
 
             @Override
@@ -78,13 +80,18 @@ public class FirebaseManager {
         ref.unauth();
     }
 
-    public void getUserByUid(String uid, final FirebaseAuthListener listener) {
+    public void getUserByUid(String uid, final FirebaseAuthListener listener, final String password) {
         ref.child("users/" + uid).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot snapshot) {
-                System.out.println(snapshot);
-                user = snapshot.getValue(User.class);
+                user = new User();
+                user.setUsername((String) snapshot.child("username").getValue());
+                user.setMail((String) snapshot.child("mail").getValue());
+                user.setColor(((Long) snapshot.child("color").getValue()).intValue());
+                user.setAvatar((String) snapshot.child("avatar").getValue());
                 user.setUid(snapshot.getKey());
+
+                userSecrets = new UserSecrets((String) snapshot.child("security/encrypted_private_key").getValue(), (String) snapshot.child("security/salt").getValue(), password);
                 listener.onSuccessAuth();
             }
 
@@ -175,48 +182,6 @@ public class FirebaseManager {
         }
         userRef.child("security/encrypted_private_key").setValue(encryptedPrivateKey.toString());
         userRef.child("security/salt").setValue(saltString);
-
-
-        // ## DECRYPT TEST
-        /*try {
-
-            String publicKeyString = RsaEcb.getPublicKeyString(publicKey);
-            String encryptedPrivateKeyString = encryptedPrivateKey.toString();
-
-            Log.d(TAG+"-D1", publicKeyString);
-            Log.d(TAG+"-D2", encryptedPrivateKeyString);
-            Log.d(TAG+"-D3", saltString);
-
-            // Regenerate secret keys from password and salt
-            AesCbcWithIntegrity.SecretKeys keysDecrypt;
-            keysDecrypt = AesCryptoUtils.getSecretKeys(password, Base64.decode(saltString));
-
-            // Recreate CipherTextIvMac
-            AesCbcWithIntegrity.CipherTextIvMac dataToDecrypt = new AesCbcWithIntegrity.CipherTextIvMac(encryptedPrivateKeyString);
-
-            // Decrypt!
-            String decrypted = null;
-            try {
-                decrypted = AesCbcWithIntegrity.decryptString(dataToDecrypt, keysDecrypt);
-            } catch (UnsupportedEncodingException | GeneralSecurityException e) {
-                e.printStackTrace();
-            }
-
-            if (decrypted != null) {
-                if (decrypted.equals(RsaEcb.getPrivateKeyString(privateKey))) {
-                    // Yay, it works
-                    Log.d(TAG+"-D4", "IT WORKED MY FRIEND !");
-                    Log.d(TAG+"-D5", decrypted);
-                } else {
-                    // Oh no! Decryption failed!
-                    throw new AssertionError();
-                }
-            }
-
-
-        } catch (IOException e) {
-            e.printStackTrace();
-        }*/
     }
 
     public void saveUser(final ProfileFragment listener) {
@@ -240,6 +205,10 @@ public class FirebaseManager {
 
     public User getUser() {
         return user;
+    }
+
+    public UserSecrets getUserSecrets() {
+        return userSecrets;
     }
 
     public interface FirebaseAuthListener {

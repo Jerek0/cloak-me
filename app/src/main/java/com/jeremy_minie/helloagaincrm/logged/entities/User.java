@@ -68,6 +68,9 @@ public class User {
         this.avatar = avatar;
     }
 
+    public void setMail(String value) {
+        this.mail = value;
+    }
 
     public void setColor(int color) {
         this.color = color;
@@ -75,6 +78,7 @@ public class User {
 
     public void setUsername(String value) {
         this.username = value;
+        this.username_lower_case = value.toLowerCase();
     }
 
     public String getUsername_lower_case() {
