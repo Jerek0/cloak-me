@@ -3,6 +3,7 @@ package com.jeremy_minie.helloagaincrm.logged.entities;
 import android.graphics.drawable.ColorDrawable;
 import android.support.v7.app.AppCompatActivity;
 
+import com.firebase.client.DataSnapshot;
 import com.jeremy_minie.helloagaincrm.R;
 import com.jeremy_minie.helloagaincrm.util.UsernameGenerator;
 
@@ -58,6 +59,14 @@ public class User {
 
     public int getColor() {
         return color;
+    }
+
+    public void fillFromSnapshot(DataSnapshot snapshot) {
+        this.setUsername((String) snapshot.child("username").getValue());
+        this.setMail((String) snapshot.child("mail").getValue());
+        this.setColor(((Long) snapshot.child("color").getValue()).intValue());
+        this.setAvatar((String) snapshot.child("avatar").getValue());
+        this.setUid(snapshot.getKey());
     }
 
     public void setUid(String uid) {

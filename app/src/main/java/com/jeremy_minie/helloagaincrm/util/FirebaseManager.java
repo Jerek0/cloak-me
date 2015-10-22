@@ -85,11 +85,7 @@ public class FirebaseManager {
             @Override
             public void onDataChange(DataSnapshot snapshot) {
                 user = new User();
-                user.setUsername((String) snapshot.child("username").getValue());
-                user.setMail((String) snapshot.child("mail").getValue());
-                user.setColor(((Long) snapshot.child("color").getValue()).intValue());
-                user.setAvatar((String) snapshot.child("avatar").getValue());
-                user.setUid(snapshot.getKey());
+                user.fillFromSnapshot(snapshot);
 
                 userSecrets = new UserSecrets((String) snapshot.child("security/encrypted_private_key").getValue(), (String) snapshot.child("security/salt").getValue(), password);
                 listener.onSuccessAuth();

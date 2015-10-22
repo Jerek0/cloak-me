@@ -63,14 +63,12 @@ public class AddDiscussionActivity extends AppCompatActivity implements Firebase
 
     @Override
     public void onDataChanged(DataSnapshot snapshot) {
-        System.out.println(snapshot);
-
         List<User> usersList = new ArrayList<User>();
 
         System.out.println("There are " + snapshot.getChildrenCount() + " users");
         for (DataSnapshot postSnapshot: snapshot.getChildren()) {
-            User user = postSnapshot.getValue(User.class);
-            user.setUid(postSnapshot.getKey());
+            User user = new User();
+            user.fillFromSnapshot(postSnapshot);
             usersList.add(user);
         }
 
