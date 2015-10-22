@@ -1,5 +1,6 @@
 package com.jeremy_minie.helloagaincrm.util;
 
+import android.support.annotation.NonNull;
 import android.util.Log;
 
 import com.firebase.client.AuthData;
@@ -10,7 +11,19 @@ import com.firebase.client.Query;
 import com.firebase.client.ValueEventListener;
 import com.jeremy_minie.helloagaincrm.logged.entities.User;
 import com.jeremy_minie.helloagaincrm.logged.fragments.ProfileFragment;
+import com.jeremy_minie.helloagaincrm.util.encryption.AesCryptoUtils;
+import com.jeremy_minie.helloagaincrm.util.encryption.RsaCryptoUtils;
+import com.jeremy_minie.helloagaincrm.util.encryption.RsaEcb;
+import com.tozny.crypto.android.AesCbcWithIntegrity;
 
+import org.spongycastle.util.encoders.Base64;
+
+import java.io.IOException;
+import java.io.UnsupportedEncodingException;
+import java.security.GeneralSecurityException;
+import java.security.KeyPair;
+import java.security.PrivateKey;
+import java.security.PublicKey;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -35,9 +48,10 @@ public class FirebaseManager {
         ref.authWithPassword(mail, password, new Firebase.AuthResultHandler() {
             @Override
             public void onAuthenticated(AuthData authData) {
-                ref.child("users/"+authData.getUid() + "/avatar").setValue(authData.getProviderData().get("profileImageURL"));
+                ref.child("users/" + authData.getUid() + "/avatar").setValue(authData.getProviderData().get("profileImageURL"));
                 getUserByUid(authData.getUid(), listener);
             }
+
             @Override
             public void onAuthenticationError(FirebaseError firebaseError) {
                 listener.onError(firebaseError);
@@ -115,14 +129,94 @@ public class FirebaseManager {
         });
     }
 
-    public void generateUser(String uid, String mail) {
+    public void generateUser(String uid, String mail, String password) {
         Firebase userRef = ref.child("users").child(uid);
+
+        // # Generated a new user object
         user = new User(uid, UsernameGenerator.getInstance().newUsername(), mail);
         user.setColor(-12813891);
+
+        // # Save the user on firebase
+
+        // ## BASIC DATA
+
         userRef.child("username").setValue(user.getUsername());
         userRef.child("username_lower_case").setValue(user.getUsername().toLowerCase());
         userRef.child("mail").setValue(user.getMail());
         userRef.child("color").setValue(user.getColor());
+
+        // ## SECURITY
+
+        // ### Génération clés RSA
+        KeyPair keyPair = RsaCryptoUtils.getKeyPair();
+        PublicKey publicKey = keyPair.getPublic();
+        PrivateKey privateKey = keyPair.getPrivate();
+
+        // ### Génération d'une clé privée AES avec un salt
+        byte[] salt = AesCryptoUtils.getSalt();
+        AesCbcWithIntegrity.SecretKeys keys = AesCryptoUtils.getSecretKeys(password, salt);
+        String saltString = Base64.toBase64String(salt);
+
+        // ### Chiffrage de la clé privée RSA avec AES
+        AesCbcWithIntegrity.CipherTextIvMac encryptedPrivateKey = null;
+        try {
+            encryptedPrivateKey = AesCbcWithIntegrity.encrypt(RsaEcb.getPrivateKeyString(privateKey), keys);
+        } catch (UnsupportedEncodingException | GeneralSecurityException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        // ### Sauvegarde des clés de chiffrage et du salt dans le profil en base
+        try {
+            userRef.child("security/public_key").setValue(RsaEcb.getPublicKeyString(publicKey));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        userRef.child("security/encrypted_private_key").setValue(encryptedPrivateKey.toString());
+        userRef.child("security/salt").setValue(saltString);
+
+
+        // ## DECRYPT TEST
+        /*try {
+
+            String publicKeyString = RsaEcb.getPublicKeyString(publicKey);
+            String encryptedPrivateKeyString = encryptedPrivateKey.toString();
+
+            Log.d(TAG+"-D1", publicKeyString);
+            Log.d(TAG+"-D2", encryptedPrivateKeyString);
+            Log.d(TAG+"-D3", saltString);
+
+            // Regenerate secret keys from password and salt
+            AesCbcWithIntegrity.SecretKeys keysDecrypt;
+            keysDecrypt = AesCryptoUtils.getSecretKeys(password, Base64.decode(saltString));
+
+            // Recreate CipherTextIvMac
+            AesCbcWithIntegrity.CipherTextIvMac dataToDecrypt = new AesCbcWithIntegrity.CipherTextIvMac(encryptedPrivateKeyString);
+
+            // Decrypt!
+            String decrypted = null;
+            try {
+                decrypted = AesCbcWithIntegrity.decryptString(dataToDecrypt, keysDecrypt);
+            } catch (UnsupportedEncodingException | GeneralSecurityException e) {
+                e.printStackTrace();
+            }
+
+            if (decrypted != null) {
+                if (decrypted.equals(RsaEcb.getPrivateKeyString(privateKey))) {
+                    // Yay, it works
+                    Log.d(TAG+"-D4", "IT WORKED MY FRIEND !");
+                    Log.d(TAG+"-D5", decrypted);
+                } else {
+                    // Oh no! Decryption failed!
+                    throw new AssertionError();
+                }
+            }
+
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }*/
     }
 
     public void saveUser(final ProfileFragment listener) {

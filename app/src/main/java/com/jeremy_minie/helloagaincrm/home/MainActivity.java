@@ -1,16 +1,13 @@
 package com.jeremy_minie.helloagaincrm.home;
 
-import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
-import android.util.AttributeSet;
 import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 
-import com.firebase.client.AuthData;
 import com.firebase.client.FirebaseError;
 import com.jeremy_minie.helloagaincrm.util.FirebaseManager;
 import com.jeremy_minie.helloagaincrm.R;

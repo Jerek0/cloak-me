@@ -69,7 +69,7 @@ public class RegisterActivity extends AppCompatActivity implements RegisterFragm
         fragment.mRegisterButton.setEnabled(true);
         System.out.println("Successfully created user account with uid: " + stringObjectMap.get("uid"));
 
-        FirebaseManager.getInstance().generateUser(stringObjectMap.get("uid").toString(), current_mail);
+        FirebaseManager.getInstance().generateUser(stringObjectMap.get("uid").toString(), current_mail, current_pwd);
 
         Intent intent = new Intent(this, MainActivity.class);
         intent.putExtra(INFO, "You are now registered, please login");

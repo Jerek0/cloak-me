@@ -93,8 +93,6 @@ public class AddDiscussionActivity extends AppCompatActivity implements Firebase
 
     @OnTextChanged(R.id.usersSearch)
     void onUserSearch() {
-        System.out.println("Text changed : " + mUsersSearch.getText().toString());
-        //FirebaseManager.getInstance().getUsersByName(mUsersSearch.getText().toString(), this);
         debouncer.hit();
     }
 
