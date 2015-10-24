@@ -29,7 +29,6 @@ import java.security.PublicKey;
 import java.security.SecureRandom;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Objects;
 
 /**
  * Created by jminie on 13/10/2015.
@@ -116,7 +115,7 @@ public class FirebaseManager {
         newDiscussionMap.put("salt", Base64.toBase64String(salt));
         newDiscussionMap.put("newMessages", false);
         newDiscussionMap.put("timestamp", currentTime);
-        ref.child("users/"+user.getUid()+"/channels/"+newDiscussionKey+"").setValue(newDiscussionMap);
+        ref.child("users/" + user.getUid() + "/channels/" + newDiscussionKey + "").setValue(newDiscussionMap);
 
         /*
             FOURTH STEP : Encrypt password with target's public key and store channel's information to it's profile
@@ -138,7 +137,7 @@ public class FirebaseManager {
                 newDiscussionMap.put("salt", Base64.toBase64String(salt));
                 newDiscussionMap.put("newMessages", false);
                 newDiscussionMap.put("timestamp", currentTime);
-                ref.child("users/"+target_uid+"/channels/"+newDiscussionKey+"").setValue(newDiscussionMap);
+                ref.child("users/" + target_uid + "/channels/" + newDiscussionKey + "").setValue(newDiscussionMap);
             }
 
             @Override
@@ -148,9 +147,73 @@ public class FirebaseManager {
         });
     }
 
+    public void newMessage(final String discussionUid, String content) {
+        // ENCRYPT CONTENT
+        // Generate salt
+        byte[] salt = AesCryptoUtils.getSalt();
+        AesCbcWithIntegrity.SecretKeys keys = userSecrets.getDiscussionsKeys().get(discussionUid);
+
+        System.out.println(keys);
+
+        // Encrypt!
+        // Compute "encrypted" text, composed of
+        // cipherText: encrypted content
+        // Iv: initialization vector
+        // Mac: hash to check integrity of cipherText
+        AesCbcWithIntegrity.CipherTextIvMac encrypted = null;
+        try {
+            encrypted = AesCbcWithIntegrity.encrypt(content, keys);
+        } catch (UnsupportedEncodingException | GeneralSecurityException e) {
+            e.printStackTrace();
+        }
+
+        // Uh Oh, something went wrong!
+        if (encrypted == null) throw new AssertionError();
+
+        String encryptedString = encrypted.toString();
+        String saltString = Base64.toBase64String(salt);
+
+        // SEND TO FIREBASE
+        final Long currentTimestamp = System.currentTimeMillis();
+        Map<String, Object> newMessageMap = new HashMap<String, Object>();
+        newMessageMap.put("channel", discussionUid);
+        newMessageMap.put("author", user.getUid());
+        newMessageMap.put("timestamp", currentTimestamp);
+        newMessageMap.put("salt", saltString);
+        newMessageMap.put("encrypted_content", encryptedString);
+        final String message_uid = ref.child("messages/").push().getKey();
+        ref.child("messages/"+message_uid).setValue(newMessageMap);
+
+        // Get users and notify them
+        ref.child("channels/"+discussionUid+"/users").addListenerForSingleValueEvent(new ValueEventListener() {
+
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                for (DataSnapshot postSnapshot : dataSnapshot.getChildren()) {
+                    Map<String, Object> updateMap = new HashMap<String, Object>();
+                    updateMap.put("timestamp", currentTimestamp);
+                    updateMap.put("newMessages", true);
+                    updateMap.put("last_message_id", message_uid);
+                    ref.child("users/" + postSnapshot.getValue() + "/channels/" + discussionUid).updateChildren(updateMap);
+                }
+            }
+
+            @Override
+            public void onCancelled(FirebaseError firebaseError) {
+
+            }
+        });
+    }
+
+    public void markDiscussionAsRead(String discussion_uid) {
+        ref.child("users/"+user.getUid()+"/channels/"+discussion_uid+"/newMessages").setValue(false);
+    }
+
     public void unAuth() {
         Log.d(TAG, "unAuth");
         ref.unauth();
+        user = null;
+        userSecrets = null;
     }
 
     public void getUserByUid(String uid, final FirebaseAuthListener listener, final String password) {
@@ -287,10 +350,10 @@ public class FirebaseManager {
     }
 
     public void getUserDiscussionsList(final FirebaseDataListener listener) {
-        ref.child("users/"+getUser().getUid()+"/channels").addValueEventListener(new ValueEventListener() {
+        ref.child("users/" + getUser().getUid() + "/channels").addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-                System.out.println(dataSnapshot);
+                updateDiscussionKeys(dataSnapshot);
                 listener.onDataChanged(dataSnapshot);
             }
 
@@ -299,6 +362,33 @@ public class FirebaseManager {
                 listener.onCancelled(firebaseError);
             }
         });
+    }
+
+    public void updateDiscussionKeys(DataSnapshot snapshot) {
+        HashMap<String, AesCbcWithIntegrity.SecretKeys> discussionsKeys = userSecrets.getDiscussionsKeys();
+        for (DataSnapshot postSnapshot: snapshot.getChildren()) {
+            if(discussionsKeys.get(postSnapshot.getKey())==null) {
+
+                // GET RAW DATA
+                String encrypted_passphrase = (String) postSnapshot.child("encrypted_passphrase").getValue();
+                byte[] salt = Base64.decode((String) postSnapshot.child("salt").getValue()); // Directly decode salt
+
+                // Decrypt!
+                String decrypted = null;
+                try {
+                    decrypted = RsaEcb.decrypt(encrypted_passphrase, userSecrets.getPrivateKey());
+                } catch (GeneralSecurityException | UnsupportedEncodingException e) {
+                    e.printStackTrace();
+                }
+                if (decrypted == null) {
+                    throw new AssertionError();
+                }
+
+                // Generate AES keys from passphrase
+                AesCbcWithIntegrity.SecretKeys keys = AesCryptoUtils.getSecretKeys(decrypted, salt);
+                userSecrets.addDiscussionKey(postSnapshot.getKey(), keys);
+            }
+        }
     }
 
     public User getUser() {

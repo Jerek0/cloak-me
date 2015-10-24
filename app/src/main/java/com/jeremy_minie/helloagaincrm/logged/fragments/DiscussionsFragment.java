@@ -108,13 +108,6 @@ public class DiscussionsFragment extends Fragment implements DiscussionsAdapter.
             }
         });
 
-        Collections.sort(discussionsList, new Comparator<Discussion>() {
-            @Override
-            public int compare(Discussion d1, Discussion d2) {
-                return d2.getNewMessages().compareTo(d1.getNewMessages()); // Descending
-            }
-        });
-
         updateAdapter(discussionsList);
     }
 

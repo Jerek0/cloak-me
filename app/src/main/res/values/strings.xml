@@ -13,4 +13,6 @@
     <string name="registerLabel">Register</string>
     <string name="modifyLabel">Update</string>
     <string name="loading">Loading...</string>
+    <string name="messageHint">Express yourself ...</string>
+    <string name="sendBtn">Send</string>
 </resources>

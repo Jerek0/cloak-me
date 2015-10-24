@@ -13,6 +13,7 @@ import java.io.UnsupportedEncodingException;
 import java.security.GeneralSecurityException;
 import java.security.PrivateKey;
 import java.security.PublicKey;
+import java.util.HashMap;
 
 
 /**
@@ -24,7 +25,11 @@ public class UserSecrets {
     private PrivateKey privateKey;
     private PublicKey publicKey;
 
+    private HashMap<String, AesCbcWithIntegrity.SecretKeys> discussionsKeys;
+
     public UserSecrets(String publicKey, String encryptedPrivateKey, String salt, String password) {
+
+        discussionsKeys = new HashMap<String, AesCbcWithIntegrity.SecretKeys>();
 
         // ## DECRYPT PRIVATE KEY
         try {
@@ -67,5 +72,13 @@ public class UserSecrets {
 
     public PublicKey getPublicKey() {
         return publicKey;
+    }
+
+    public HashMap<String, AesCbcWithIntegrity.SecretKeys> getDiscussionsKeys() {
+        return discussionsKeys;
+    }
+
+    public void addDiscussionKey(String discussion_uid, AesCbcWithIntegrity.SecretKeys keys) {
+        discussionsKeys.put(discussion_uid, keys);
     }
 }
