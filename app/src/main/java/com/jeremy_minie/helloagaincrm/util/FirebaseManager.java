@@ -21,10 +21,12 @@ import org.spongycastle.util.encoders.Base64;
 
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
+import java.math.BigInteger;
 import java.security.GeneralSecurityException;
 import java.security.KeyPair;
 import java.security.PrivateKey;
 import java.security.PublicKey;
+import java.security.SecureRandom;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -76,6 +78,65 @@ public class FirebaseManager {
         });
     }
 
+    public void createDiscussion(final String target_uid) {
+        /*
+            FIRST STEP : Add a channel to channels list
+         */
+        final Firebase newDiscussion = ref.child("channels").push();
+        final String newDiscussionKey = newDiscussion.getKey();
+        // Add each user to the discussion
+        newDiscussion.child("users").push().setValue(user.getUid());
+        newDiscussion.child("users").push().setValue(target_uid);
+        newDiscussion.child("last_message_uid").setValue(null);
+
+        /*
+            SECOND STEP : Generate an password and salt for AES secret key
+         */
+        // Generate a password
+        SecureRandom random = new SecureRandom();
+        final String password = new BigInteger(130, random).toString(32);
+        // Generate a salt
+        final byte[] salt = AesCryptoUtils.getSalt();
+
+        /*
+            THIRD STEP : Encrypt password with user's public key and store channel's information to it's profile
+         */
+        String encrypted = null;
+        try {
+            encrypted = RsaEcb.encrypt(password, userSecrets.getPublicKey());
+        } catch (GeneralSecurityException | UnsupportedEncodingException e) {
+            e.printStackTrace();
+        }
+        ref.child("users/"+user.getUid()+"/channels/"+newDiscussionKey+"/encrypted_passphrase").setValue(encrypted);
+        ref.child("users/"+user.getUid()+"/channels/"+newDiscussionKey+"/salt").setValue(Base64.toBase64String(salt));
+        ref.child("users/"+user.getUid()+"/channels/"+newDiscussionKey+"/target_uid").setValue(target_uid);
+
+        /*
+            FOURTH STEP : Encrypt password with target's public key and store channel's information to it's profile
+         */
+        ref.child("users/" + target_uid).addListenerForSingleValueEvent(new ValueEventListener() {
+
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                String encrypted = null;
+                try {
+                    encrypted = RsaEcb.encrypt(password, RsaEcb.getRSAPublicKeyFromString((String) dataSnapshot.child("security/public_key").getValue()));
+                } catch (GeneralSecurityException | UnsupportedEncodingException e) {
+                    e.printStackTrace();
+                }
+
+                ref.child("users/"+target_uid+"/channels/"+newDiscussionKey+"/encrypted_passphrase").setValue(encrypted);
+                ref.child("users/"+target_uid+"/channels/"+newDiscussionKey+"/salt").setValue(Base64.toBase64String(salt));
+                ref.child("users/"+target_uid+"/channels/"+newDiscussionKey+"/target_uid").setValue(user.getUid());
+            }
+
+            @Override
+            public void onCancelled(FirebaseError firebaseError) {
+                System.out.println("The read failed: " + firebaseError.getMessage());
+            }
+        });
+    }
+
     public void unAuth() {
         Log.d(TAG, "unAuth");
         ref.unauth();
@@ -88,7 +149,7 @@ public class FirebaseManager {
                 user = new User();
                 user.fillFromSnapshot(snapshot);
 
-                userSecrets = new UserSecrets((String) snapshot.child("security/encrypted_private_key").getValue(), (String) snapshot.child("security/salt").getValue(), password);
+                userSecrets = new UserSecrets((String) snapshot.child("security/public_key").getValue(), (String) snapshot.child("security/encrypted_private_key").getValue(), (String) snapshot.child("security/salt").getValue(), password);
                 listener.onSuccessAuth();
             }
 

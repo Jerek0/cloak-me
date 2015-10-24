@@ -3,6 +3,7 @@ package com.jeremy_minie.helloagaincrm.logged.entities;
 import android.util.Log;
 
 import com.jeremy_minie.helloagaincrm.util.encryption.AesCryptoUtils;
+import com.jeremy_minie.helloagaincrm.util.encryption.RsaCryptoUtils;
 import com.jeremy_minie.helloagaincrm.util.encryption.RsaEcb;
 import com.tozny.crypto.android.AesCbcWithIntegrity;
 
@@ -11,6 +12,7 @@ import org.spongycastle.util.encoders.Base64;
 import java.io.UnsupportedEncodingException;
 import java.security.GeneralSecurityException;
 import java.security.PrivateKey;
+import java.security.PublicKey;
 
 
 /**
@@ -20,11 +22,15 @@ public class UserSecrets {
 
     private static final String TAG = "UserSecrets";
     private PrivateKey privateKey;
+    private PublicKey publicKey;
 
-    public UserSecrets(String encryptedPrivateKey, String salt, String password) {
+    public UserSecrets(String publicKey, String encryptedPrivateKey, String salt, String password) {
 
         // ## DECRYPT PRIVATE KEY
         try {
+            // Store public key
+            this.publicKey = RsaEcb.getRSAPublicKeyFromString(publicKey);
+
             // Regenerate secret keys from password and salt
             AesCbcWithIntegrity.SecretKeys keysDecrypt;
             keysDecrypt = AesCryptoUtils.getSecretKeys(password, Base64.decode(salt));
@@ -57,5 +63,9 @@ public class UserSecrets {
 
     public PrivateKey getPrivateKey() {
         return privateKey;
+    }
+
+    public PublicKey getPublicKey() {
+        return publicKey;
     }
 }

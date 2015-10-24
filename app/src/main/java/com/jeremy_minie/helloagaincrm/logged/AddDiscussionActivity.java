@@ -107,7 +107,8 @@ public class AddDiscussionActivity extends AppCompatActivity implements Firebase
 
     @Override
     public void onItemClick(View itemView, String uid) {
-        // TODO - New discussion on firebase
+
+        FirebaseManager.getInstance().createDiscussion(uid);
         // TODO - Open new discussion directly with an intent
         Log.d(TAG, "clicked on item "+uid);
         finish();
