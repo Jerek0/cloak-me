@@ -15,7 +15,7 @@ import com.firebase.client.DataSnapshot;
 import com.firebase.client.FirebaseError;
 import com.jeremy_minie.helloagaincrm.R;
 import com.jeremy_minie.helloagaincrm.logged.entities.User;
-import com.jeremy_minie.helloagaincrm.logged.entities.UsersAdapter;
+import com.jeremy_minie.helloagaincrm.logged.adapters.UsersAdapter;
 import com.jeremy_minie.helloagaincrm.util.timers.Debounce;
 import com.jeremy_minie.helloagaincrm.util.FirebaseManager;
 

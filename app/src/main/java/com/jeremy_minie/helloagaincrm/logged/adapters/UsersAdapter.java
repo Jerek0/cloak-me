@@ -1,4 +1,4 @@
-package com.jeremy_minie.helloagaincrm.logged.entities;
+package com.jeremy_minie.helloagaincrm.logged.adapters;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
@@ -7,10 +7,11 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.jeremy_minie.helloagaincrm.R;
+import com.jeremy_minie.helloagaincrm.logged.entities.User;
+import com.jeremy_minie.helloagaincrm.logged.fragments.DiscussionsFragment;
 import com.jeremy_minie.helloagaincrm.util.image.CircleTransform;
 import com.squareup.picasso.Picasso;
 
