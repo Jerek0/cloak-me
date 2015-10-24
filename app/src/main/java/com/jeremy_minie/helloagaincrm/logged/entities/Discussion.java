@@ -5,20 +5,26 @@ import android.util.Log;
 import com.firebase.client.DataSnapshot;
 import com.firebase.client.FirebaseError;
 import com.jeremy_minie.helloagaincrm.util.FirebaseManager;
+import com.tozny.crypto.android.AesCbcWithIntegrity;
+
+import java.io.UnsupportedEncodingException;
+import java.security.GeneralSecurityException;
 
 /**
  * Created by jerek0 on 24/10/15.
  */
-public class Discussion implements FirebaseManager.FirebaseDataListener {
+public class Discussion {
 
     private static final String TAG = "Discussion";
     private User target;
-    private String lastMessage = "Last received message from this discussion which can be very very very long !";
+    private String lastMessage = "Loading last message";
     private Boolean newMessages = false;
     private Long timestamp = 786791400l; // Default timestamp if no one is given -> author's date of birth :)
     private String uid;
 
     private DiscussionListener listener;
+    private UserListener userListener = new UserListener();
+    private MessageListener messageListener = new MessageListener();
 
     public Discussion(DataSnapshot snapshot) {
         this.uid = snapshot.getKey();
@@ -27,7 +33,9 @@ public class Discussion implements FirebaseManager.FirebaseDataListener {
             this.newMessages = (Boolean) snapshot.child("newMessages").getValue();
         if(snapshot.child("timestamp").getValue() != null)
             this.timestamp = (Long) snapshot.child("timestamp").getValue();
-        FirebaseManager.getInstance().getUserByUid((String) snapshot.child("target_uid").getValue(), this);
+
+        FirebaseManager.getInstance().getUserByUid((String) snapshot.child("target_uid").getValue(), userListener);
+        FirebaseManager.getInstance().getMessageByUid((String) snapshot.child("last_message_id").getValue(), messageListener);
     }
 
     public Discussion(User target, String lastMessage) {
@@ -42,19 +50,6 @@ public class Discussion implements FirebaseManager.FirebaseDataListener {
 
     public String getLastMessage() {
         return lastMessage;
-    }
-
-    @Override
-    public void onDataChanged(DataSnapshot snapshot) {
-        this.target= new User();
-        target.fillFromSnapshot(snapshot);
-
-        listener.onDiscussionLoaded(this);
-    }
-
-    @Override
-    public void onCancelled(FirebaseError firebaseError) {
-
     }
 
     public void setListener(DiscussionListener listener) {
@@ -77,6 +72,52 @@ public class Discussion implements FirebaseManager.FirebaseDataListener {
         return uid;
     }
 
+    public class UserListener implements FirebaseManager.FirebaseDataListener{
+
+        @Override
+        public void onDataChanged(DataSnapshot snapshot) {
+            target= new User();
+            target.fillFromSnapshot(snapshot);
+
+            listener.onDiscussionLoaded(Discussion.this);
+        }
+
+        @Override
+        public void onCancelled(FirebaseError firebaseError) {
+
+        }
+    }
+
+    public class MessageListener implements FirebaseManager.FirebaseDataListener {
+
+        @Override
+        public void onDataChanged(DataSnapshot snapshot) {
+
+            // Decrypt message
+            AesCbcWithIntegrity.SecretKeys keys = FirebaseManager.getInstance().getUserSecrets().getDiscussionsKeys().get(uid);
+            // Recreate CipherTextIvMac
+            AesCbcWithIntegrity.CipherTextIvMac dataToDecrypt = new AesCbcWithIntegrity.CipherTextIvMac((String) snapshot.child("encrypted_content").getValue());
+
+            // Decrypt!
+            String decrypted = null;
+            try {
+                decrypted = AesCbcWithIntegrity.decryptString(dataToDecrypt, keys);
+            } catch (UnsupportedEncodingException | GeneralSecurityException e) {
+                e.printStackTrace();
+            }
+            if(decrypted==null) {
+                throw new AssertionError();
+            }
+            lastMessage = decrypted;
+
+            listener.onDiscussionLoaded(Discussion.this);
+        }
+
+        @Override
+        public void onCancelled(FirebaseError firebaseError) {
+            System.out.println(firebaseError.getMessage());
+        }
+    }
 
     public interface DiscussionListener {
         void onDiscussionLoaded(Discussion discussion);

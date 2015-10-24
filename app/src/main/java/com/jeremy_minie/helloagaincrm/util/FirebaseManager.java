@@ -387,6 +387,20 @@ public class FirebaseManager {
         return vel;
     }
 
+    public void getMessageByUid(String messageUid, final FirebaseDataListener listener) {
+        ref.child("messages/"+messageUid).addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                listener.onDataChanged(dataSnapshot);
+            }
+
+            @Override
+            public void onCancelled(FirebaseError firebaseError) {
+                listener.onCancelled(firebaseError);
+            }
+        });
+    }
+
     public void removeMessagesListener(String channelUid, ValueEventListener vel) {
         ref.child("messages/").orderByChild("channel").startAt(channelUid).endAt(channelUid).removeEventListener(vel);
     }
