@@ -19,6 +19,8 @@ import com.jeremy_minie.helloagaincrm.logged.entities.Discussion;
 import com.jeremy_minie.helloagaincrm.util.FirebaseManager;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 import butterknife.ButterKnife;
@@ -81,11 +83,24 @@ public class DiscussionsFragment extends Fragment implements DiscussionsAdapter.
         discussionsList = new ArrayList<Discussion>();
 
         for (DataSnapshot postSnapshot: snapshot.getChildren()) {
-            System.out.println(postSnapshot);
             Discussion discussion = new Discussion(postSnapshot);
             discussion.setListener(this);
             discussionsList.add(discussion);
         }
+
+        Collections.sort(discussionsList, new Comparator<Discussion>() {
+            @Override
+            public int compare(Discussion d1, Discussion d2) {
+                return (int) (d2.getTimestamp() - d1.getTimestamp()); // Descending
+            }
+        });
+
+        Collections.sort(discussionsList, new Comparator<Discussion>() {
+            @Override
+            public int compare(Discussion d1, Discussion d2) {
+                return d2.getNewMessages().compareTo(d1.getNewMessages()); // Descending
+            }
+        });
 
         updateAdapter(discussionsList);
     }

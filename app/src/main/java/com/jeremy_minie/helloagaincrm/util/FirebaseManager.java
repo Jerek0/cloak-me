@@ -85,6 +85,7 @@ public class FirebaseManager {
          */
         final Firebase newDiscussion = ref.child("channels").push();
         final String newDiscussionKey = newDiscussion.getKey();
+        final Long currentTime = System.currentTimeMillis();
         // Add each user to the discussion
         newDiscussion.child("users").push().setValue(user.getUid());
         newDiscussion.child("users").push().setValue(target_uid);
@@ -114,6 +115,7 @@ public class FirebaseManager {
         newDiscussionMap.put("encrypted_passphrase", encrypted);
         newDiscussionMap.put("salt", Base64.toBase64String(salt));
         newDiscussionMap.put("newMessages", false);
+        newDiscussionMap.put("timestamp", currentTime);
         ref.child("users/"+user.getUid()+"/channels/"+newDiscussionKey+"").setValue(newDiscussionMap);
 
         /*
@@ -135,6 +137,7 @@ public class FirebaseManager {
                 newDiscussionMap.put("encrypted_passphrase", encrypted);
                 newDiscussionMap.put("salt", Base64.toBase64String(salt));
                 newDiscussionMap.put("newMessages", false);
+                newDiscussionMap.put("timestamp", currentTime);
                 ref.child("users/"+target_uid+"/channels/"+newDiscussionKey+"").setValue(newDiscussionMap);
             }
 
@@ -287,6 +290,7 @@ public class FirebaseManager {
         ref.child("users/"+getUser().getUid()+"/channels").addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
+                System.out.println(dataSnapshot);
                 listener.onDataChanged(dataSnapshot);
             }
 

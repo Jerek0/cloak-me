@@ -15,13 +15,15 @@ public class Discussion implements FirebaseManager.FirebaseDataListener {
     private User target;
     private String lastMessage = "Last received message from this discussion which can be very very very long !";
     private Boolean newMessages = false;
+    private Long timestamp = 786791400l; // Default timestamp if no one is given -> author's date of birth :)
 
     private DiscussionListener listener;
 
     public Discussion(DataSnapshot snapshot) {
         if(snapshot.child("newMessages").getValue() != null)
             this.newMessages = (Boolean) snapshot.child("newMessages").getValue();
-
+        if(snapshot.child("timestamp").getValue() != null)
+            this.timestamp = (Long) snapshot.child("timestamp").getValue();
         FirebaseManager.getInstance().getUserByUid((String) snapshot.child("target_uid").getValue(), this);
     }
 
@@ -58,6 +60,10 @@ public class Discussion implements FirebaseManager.FirebaseDataListener {
 
     public Boolean getNewMessages() {
         return newMessages;
+    }
+
+    public Long getTimestamp() {
+        return timestamp;
     }
 
 
