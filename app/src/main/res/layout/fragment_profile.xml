@@ -72,6 +72,34 @@
                     android:id="@+id/profileColor4"
                     android:background="@color/profileColor4">
                 </FrameLayout>
+                <FrameLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:id="@+id/profileColor5"
+                    android:background="@color/profileColor5">
+                </FrameLayout>
+                <FrameLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:id="@+id/profileColor6"
+                    android:background="@color/profileColor6">
+                </FrameLayout>
+                <FrameLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:id="@+id/profileColor7"
+                    android:background="@color/profileColor7">
+                </FrameLayout>
+                <FrameLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:id="@+id/profileColor8"
+                    android:background="@color/profileColor8">
+                </FrameLayout>
             </LinearLayout>
         </RelativeLayout>
 

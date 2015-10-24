@@ -45,6 +45,10 @@ public class ProfileFragment extends Fragment {
     @Bind(R.id.profileColor2) FrameLayout mProfileColor2;
     @Bind(R.id.profileColor3) FrameLayout mProfileColor3;
     @Bind(R.id.profileColor4) FrameLayout mProfileColor4;
+    @Bind(R.id.profileColor5) FrameLayout mProfileColor5;
+    @Bind(R.id.profileColor6) FrameLayout mProfileColor6;
+    @Bind(R.id.profileColor7) FrameLayout mProfileColor7;
+    @Bind(R.id.profileColor8) FrameLayout mProfileColor8;
 
     public ProfileFragment() {
         // Required empty public constructor
@@ -61,7 +65,7 @@ public class ProfileFragment extends Fragment {
         return view;
     }
 
-    @OnClick({R.id.profileColor1, R.id.profileColor2, R.id.profileColor3, R.id.profileColor4})
+    @OnClick({R.id.profileColor1, R.id.profileColor2, R.id.profileColor3, R.id.profileColor4, R.id.profileColor5, R.id.profileColor6, R.id.profileColor7, R.id.profileColor8})
     void onProfileColorClick(FrameLayout profileColor) {
         Drawable background = profileColor.getBackground();
 

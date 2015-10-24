@@ -6,8 +6,12 @@
     <color name="statusBarColor">#20ffa9</color>
     <color name="holo_purple">#00ff90</color>
     <color name="background_material_dark">#191c2b</color>
-    <color name="profileColor1">#3c79bd</color>
-    <color name="profileColor2">#b026ce</color>
-    <color name="profileColor3">#c33939</color>
-    <color name="profileColor4">#39c384</color>
+    <color name="profileColor1">#2c82c9</color>
+    <color name="profileColor2">#00b2ff</color>
+    <color name="profileColor3">#1abc9c</color>
+    <color name="profileColor4">#9ffe64</color>
+    <color name="profileColor5">#fba026</color>
+    <color name="profileColor6">#e14938</color>
+    <color name="profileColor7">#ff0e72</color>
+    <color name="profileColor8">#781fff</color>
 </resources>
