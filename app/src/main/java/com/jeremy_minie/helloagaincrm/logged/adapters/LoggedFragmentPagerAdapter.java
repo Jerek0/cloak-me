@@ -1,4 +1,4 @@
-package com.jeremy_minie.helloagaincrm.logged.util;
+package com.jeremy_minie.helloagaincrm.logged.adapters;
 
 import android.content.Context;
 import android.support.v4.app.Fragment;

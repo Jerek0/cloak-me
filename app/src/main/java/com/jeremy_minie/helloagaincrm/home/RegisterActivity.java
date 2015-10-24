@@ -13,7 +13,6 @@ import com.firebase.client.FirebaseError;
 import com.jeremy_minie.helloagaincrm.util.FirebaseManager;
 import com.jeremy_minie.helloagaincrm.R;
 import com.jeremy_minie.helloagaincrm.home.fragments.RegisterFragment;
-import com.jeremy_minie.helloagaincrm.util.UsernameGenerator;
 
 import java.util.Map;
 

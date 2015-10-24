@@ -14,6 +14,7 @@ import com.jeremy_minie.helloagaincrm.logged.fragments.ProfileFragment;
 import com.jeremy_minie.helloagaincrm.util.encryption.AesCryptoUtils;
 import com.jeremy_minie.helloagaincrm.util.encryption.RsaCryptoUtils;
 import com.jeremy_minie.helloagaincrm.util.encryption.RsaEcb;
+import com.jeremy_minie.helloagaincrm.util.generators.UsernameGenerator;
 import com.tozny.crypto.android.AesCbcWithIntegrity;
 
 import org.spongycastle.util.encoders.Base64;

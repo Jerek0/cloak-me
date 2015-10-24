@@ -1,11 +1,7 @@
 package com.jeremy_minie.helloagaincrm.logged.entities;
 
-import android.graphics.drawable.ColorDrawable;
-import android.support.v7.app.AppCompatActivity;
-
 import com.firebase.client.DataSnapshot;
-import com.jeremy_minie.helloagaincrm.R;
-import com.jeremy_minie.helloagaincrm.util.UsernameGenerator;
+import com.jeremy_minie.helloagaincrm.util.generators.UsernameGenerator;
 
 import java.util.ArrayList;
 import java.util.List;

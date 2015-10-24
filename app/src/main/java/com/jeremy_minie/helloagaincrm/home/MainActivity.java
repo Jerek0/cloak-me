@@ -13,7 +13,7 @@ import com.jeremy_minie.helloagaincrm.util.FirebaseManager;
 import com.jeremy_minie.helloagaincrm.R;
 import com.jeremy_minie.helloagaincrm.home.fragments.LoginFragment;
 import com.jeremy_minie.helloagaincrm.logged.LoggedActivity;
-import com.jeremy_minie.helloagaincrm.util.QuotesFactory;
+import com.jeremy_minie.helloagaincrm.util.generators.QuotesFactory;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;

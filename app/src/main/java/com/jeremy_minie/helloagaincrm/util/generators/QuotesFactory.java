@@ -1,4 +1,4 @@
-package com.jeremy_minie.helloagaincrm.util;
+package com.jeremy_minie.helloagaincrm.util.generators;
 
 import java.util.ArrayList;
 import java.util.Random;

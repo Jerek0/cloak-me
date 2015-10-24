@@ -10,7 +10,7 @@ import android.view.MenuItem;
 
 import com.jeremy_minie.helloagaincrm.util.FirebaseManager;
 import com.jeremy_minie.helloagaincrm.R;
-import com.jeremy_minie.helloagaincrm.logged.util.LoggedFragmentPagerAdapter;
+import com.jeremy_minie.helloagaincrm.logged.adapters.LoggedFragmentPagerAdapter;
 
 public class LoggedActivity extends AppCompatActivity {
 

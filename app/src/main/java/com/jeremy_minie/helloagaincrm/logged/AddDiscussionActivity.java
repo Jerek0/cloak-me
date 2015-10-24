@@ -16,7 +16,7 @@ import com.firebase.client.FirebaseError;
 import com.jeremy_minie.helloagaincrm.R;
 import com.jeremy_minie.helloagaincrm.logged.entities.User;
 import com.jeremy_minie.helloagaincrm.logged.entities.UsersAdapter;
-import com.jeremy_minie.helloagaincrm.util.Debounce;
+import com.jeremy_minie.helloagaincrm.util.timers.Debounce;
 import com.jeremy_minie.helloagaincrm.util.FirebaseManager;
 
 import java.util.ArrayList;
