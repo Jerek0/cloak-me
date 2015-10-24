@@ -34,8 +34,13 @@ public class Discussion {
         if(snapshot.child("timestamp").getValue() != null)
             this.timestamp = (Long) snapshot.child("timestamp").getValue();
 
+        if((String) snapshot.child("last_message_id").getValue()!=null)
+            FirebaseManager.getInstance().getMessageByUid((String) snapshot.child("last_message_id").getValue(), messageListener);
+        else {
+            lastMessage = "(Empty conversation)";
+        }
+
         FirebaseManager.getInstance().getUserByUid((String) snapshot.child("target_uid").getValue(), userListener);
-        FirebaseManager.getInstance().getMessageByUid((String) snapshot.child("last_message_id").getValue(), messageListener);
     }
 
     public Discussion(User target, String lastMessage) {
@@ -92,25 +97,26 @@ public class Discussion {
 
         @Override
         public void onDataChanged(DataSnapshot snapshot) {
+            if((String) snapshot.child("encrypted_content").getValue()!=null) {
+                // Decrypt message
+                AesCbcWithIntegrity.SecretKeys keys = FirebaseManager.getInstance().getUserSecrets().getDiscussionsKeys().get(uid);
+                // Recreate CipherTextIvMac
+                AesCbcWithIntegrity.CipherTextIvMac dataToDecrypt = new AesCbcWithIntegrity.CipherTextIvMac((String) snapshot.child("encrypted_content").getValue());
 
-            // Decrypt message
-            AesCbcWithIntegrity.SecretKeys keys = FirebaseManager.getInstance().getUserSecrets().getDiscussionsKeys().get(uid);
-            // Recreate CipherTextIvMac
-            AesCbcWithIntegrity.CipherTextIvMac dataToDecrypt = new AesCbcWithIntegrity.CipherTextIvMac((String) snapshot.child("encrypted_content").getValue());
+                // Decrypt!
+                String decrypted = null;
+                try {
+                    decrypted = AesCbcWithIntegrity.decryptString(dataToDecrypt, keys);
+                } catch (UnsupportedEncodingException | GeneralSecurityException e) {
+                    e.printStackTrace();
+                }
+                if (decrypted == null) {
+                    throw new AssertionError();
+                }
+                lastMessage = decrypted;
 
-            // Decrypt!
-            String decrypted = null;
-            try {
-                decrypted = AesCbcWithIntegrity.decryptString(dataToDecrypt, keys);
-            } catch (UnsupportedEncodingException | GeneralSecurityException e) {
-                e.printStackTrace();
+                listener.onDiscussionLoaded(Discussion.this);
             }
-            if(decrypted==null) {
-                throw new AssertionError();
-            }
-            lastMessage = decrypted;
-
-            listener.onDiscussionLoaded(Discussion.this);
         }
 
         @Override
