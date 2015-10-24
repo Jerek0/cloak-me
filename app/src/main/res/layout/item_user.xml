@@ -10,7 +10,7 @@
 
     <FrameLayout
         android:id="@+id/user_color"
-        android:layout_width="6dp"
+        android:layout_width="8dp"
         android:layout_height="match_parent"
         android:background="@color/colorAccent"></FrameLayout>
 

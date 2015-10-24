@@ -35,7 +35,14 @@
             android:name=".logged.LoggedActivity"
             android:screenOrientation="portrait" >
         </activity>
-        <activity android:name=".logged.AddDiscussionActivity" >
+        <activity
+            android:name=".logged.AddDiscussionActivity"
+            android:screenOrientation="portrait">
+        </activity>
+        <activity
+            android:name=".logged.DiscussionActivity"
+            android:parentActivityName=".logged.LoggedActivity"
+            android:screenOrientation="portrait">
         </activity>
     </application>
 

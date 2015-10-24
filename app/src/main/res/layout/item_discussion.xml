@@ -16,7 +16,7 @@
 
     <FrameLayout
         android:id="@+id/discussion_border"
-        android:layout_width="6dp"
+        android:layout_width="8dp"
         android:layout_height="match_parent"
         android:background="#000000"
         android:alpha="0.3"/>

@@ -9,14 +9,19 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
+import android.widget.TextView;
 
 import com.firebase.client.DataSnapshot;
 import com.firebase.client.FirebaseError;
 import com.jeremy_minie.helloagaincrm.R;
 import com.jeremy_minie.helloagaincrm.logged.AddDiscussionActivity;
+import com.jeremy_minie.helloagaincrm.logged.DiscussionActivity;
 import com.jeremy_minie.helloagaincrm.logged.adapters.DiscussionsAdapter;
 import com.jeremy_minie.helloagaincrm.logged.entities.Discussion;
 import com.jeremy_minie.helloagaincrm.util.FirebaseManager;
+
+import org.w3c.dom.Text;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -31,6 +36,9 @@ import butterknife.OnClick;
  */
 public class DiscussionsFragment extends Fragment implements DiscussionsAdapter.OnItemClickListener, FirebaseManager.FirebaseDataListener, Discussion.DiscussionListener {
 
+    public static final String USERNAME = "username";
+    public static final String DISCUSSION_UID = "discussion_uid";
+    public static final String USERCOLOR = "usercolor";
     private View view;
 
     private List<Discussion> discussionsList;
@@ -74,8 +82,13 @@ public class DiscussionsFragment extends Fragment implements DiscussionsAdapter.
     }
 
     @Override
-    public void onItemClick(View itemView, String uid) {
-
+    public void onItemClick(View itemView, Discussion discussion) {
+        Intent intent = new Intent(getActivity(), DiscussionActivity.class);
+        TextView mUserName = (TextView) itemView.findViewById(R.id.user_name);
+        intent.putExtra(USERNAME, mUserName.getText());
+        intent.putExtra(DISCUSSION_UID, discussion.getUid());
+        intent.putExtra(USERCOLOR, discussion.getTarget().getColor());
+        startActivity(intent);
     }
 
     @Override

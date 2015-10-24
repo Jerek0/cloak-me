@@ -39,8 +39,9 @@ public class DiscussionsAdapter extends RecyclerView.Adapter<DiscussionsAdapter.
         public FrameLayout discussionBorder;
         public TextView lastMessage;
 
-        private String uid;
         private OnItemClickListener mListener;
+
+        private Discussion discussion;
 
         // We also create a constructor that accepts the entire item row
         // and does the view lookups to find each subview
@@ -60,13 +61,18 @@ public class DiscussionsAdapter extends RecyclerView.Adapter<DiscussionsAdapter.
                 @Override
                 public void onClick(View v) {
                     if(mListener!= null)
-                        mListener.onItemClick(itemView, uid);
+                        mListener.onItemClick(itemView, discussion);
                 }
             });
         }
 
-        public void setUid(String uid) {
-            this.uid = uid;
+
+        public void setDiscussion(Discussion discussion) {
+            this.discussion = discussion;
+        }
+
+        public Discussion getDiscussion() {
+            return discussion;
         }
     }
 
@@ -98,7 +104,7 @@ public class DiscussionsAdapter extends RecyclerView.Adapter<DiscussionsAdapter.
         // Get the data model based on position
         Discussion discussion = mDiscussions.get(position);
 
-        //viewHolder.setUid(discussion.getUid());
+        viewHolder.setDiscussion(discussion);
 
         if(discussion.getTarget() != null) {
             ImageView userAvatar = viewHolder.userAvatar;
@@ -128,6 +134,6 @@ public class DiscussionsAdapter extends RecyclerView.Adapter<DiscussionsAdapter.
     }
 
     public interface OnItemClickListener {
-        void onItemClick(View itemView, String uid);
+        void onItemClick(View itemView, Discussion discussion);
     }
 }
