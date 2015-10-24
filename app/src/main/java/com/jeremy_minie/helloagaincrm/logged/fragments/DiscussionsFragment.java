@@ -14,6 +14,7 @@ import android.widget.TextView;
 
 import com.firebase.client.DataSnapshot;
 import com.firebase.client.FirebaseError;
+import com.firebase.client.ValueEventListener;
 import com.jeremy_minie.helloagaincrm.R;
 import com.jeremy_minie.helloagaincrm.logged.AddDiscussionActivity;
 import com.jeremy_minie.helloagaincrm.logged.DiscussionActivity;
@@ -44,6 +45,9 @@ public class DiscussionsFragment extends Fragment implements DiscussionsAdapter.
     private List<Discussion> discussionsList;
     private DiscussionsAdapter adapter;
 
+    private ValueEventListener vel;
+    private String vel_uid;
+
     public DiscussionsFragment() {
         // Required empty public constructor
     }
@@ -56,9 +60,17 @@ public class DiscussionsFragment extends Fragment implements DiscussionsAdapter.
         view = inflater.inflate(R.layout.fragment_discussions, container, false);
         ButterKnife.bind(this, view);
 
-        FirebaseManager.getInstance().getUserDiscussionsList(this);
+
+        vel = FirebaseManager.getInstance().getUserDiscussionsList(this);
+        vel_uid = FirebaseManager.getInstance().getUser().getUid();
 
         return view;
+    }
+
+    @Override
+    public void onDestroy() {
+        FirebaseManager.getInstance().removeUserDiscussionsListener(vel_uid, vel);
+        super.onDestroy();
     }
 
     private void updateAdapter(List<Discussion> discussionsList) {
@@ -72,7 +84,7 @@ public class DiscussionsFragment extends Fragment implements DiscussionsAdapter.
         // Set layout manager to position the items
         rvDiscussions.setLayoutManager(new LinearLayoutManager(view.getContext()));
         // That's all!
-        rvDiscussions.setHasFixedSize(false);
+        rvDiscussions.setHasFixedSize(true);
     }
 
     @OnClick(R.id.addDiscussionButton)

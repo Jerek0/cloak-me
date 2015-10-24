@@ -149,8 +149,6 @@ public class FirebaseManager {
 
     public void newMessage(final String discussionUid, String content) {
         // ENCRYPT CONTENT
-        // Generate salt
-        byte[] salt = AesCryptoUtils.getSalt();
         AesCbcWithIntegrity.SecretKeys keys = userSecrets.getDiscussionsKeys().get(discussionUid);
 
         System.out.println(keys);
@@ -171,7 +169,6 @@ public class FirebaseManager {
         if (encrypted == null) throw new AssertionError();
 
         String encryptedString = encrypted.toString();
-        String saltString = Base64.toBase64String(salt);
 
         // SEND TO FIREBASE
         final Long currentTimestamp = System.currentTimeMillis();
@@ -179,7 +176,6 @@ public class FirebaseManager {
         newMessageMap.put("channel", discussionUid);
         newMessageMap.put("author", user.getUid());
         newMessageMap.put("timestamp", currentTimestamp);
-        newMessageMap.put("salt", saltString);
         newMessageMap.put("encrypted_content", encryptedString);
         final String message_uid = ref.child("messages/").push().getKey();
         ref.child("messages/"+message_uid).setValue(newMessageMap);
@@ -349,8 +345,9 @@ public class FirebaseManager {
         });
     }
 
-    public void getUserDiscussionsList(final FirebaseDataListener listener) {
-        ref.child("users/" + getUser().getUid() + "/channels").addValueEventListener(new ValueEventListener() {
+    public ValueEventListener getUserDiscussionsList(final FirebaseDataListener listener) {
+
+        ValueEventListener vel = new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 updateDiscussionKeys(dataSnapshot);
@@ -361,7 +358,37 @@ public class FirebaseManager {
             public void onCancelled(FirebaseError firebaseError) {
                 listener.onCancelled(firebaseError);
             }
-        });
+        };
+
+        ref.child("users/" + getUser().getUid() + "/channels").addValueEventListener(vel);
+        return vel;
+    }
+
+    public void removeUserDiscussionsListener(String vel_uid, ValueEventListener vel) {
+        System.out.println("removeUserDiscussionsListener");
+        ref.child("users/" + vel_uid + "/channels").removeEventListener(vel);
+    }
+
+    public ValueEventListener getMessagesByChannelUid(String channelUid,final FirebaseDataListener listener) {
+
+        ValueEventListener vel = new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                listener.onDataChanged(dataSnapshot);
+            }
+
+            @Override
+            public void onCancelled(FirebaseError firebaseError) {
+                listener.onCancelled(firebaseError);
+            }
+        };
+
+        ref.child("messages/").orderByChild("channel").startAt(channelUid).endAt(channelUid).addValueEventListener(vel);
+        return vel;
+    }
+
+    public void removeMessagesListener(String channelUid, ValueEventListener vel) {
+        ref.child("messages/").orderByChild("channel").startAt(channelUid).endAt(channelUid).removeEventListener(vel);
     }
 
     public void updateDiscussionKeys(DataSnapshot snapshot) {
