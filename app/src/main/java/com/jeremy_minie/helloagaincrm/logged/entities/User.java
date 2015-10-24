@@ -83,7 +83,7 @@ public class User {
 
     public void setUsername(String value) {
         this.username = value;
-        this.username_lower_case = value.toLowerCase();
+        this.username_lower_case = this.username.toLowerCase();
     }
 
     public String getUsername_lower_case() {

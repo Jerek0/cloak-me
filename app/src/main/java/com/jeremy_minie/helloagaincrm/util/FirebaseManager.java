@@ -29,6 +29,7 @@ import java.security.PublicKey;
 import java.security.SecureRandom;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Objects;
 
 /**
  * Created by jminie on 13/10/2015.
@@ -107,9 +108,13 @@ public class FirebaseManager {
         } catch (GeneralSecurityException | UnsupportedEncodingException e) {
             e.printStackTrace();
         }
-        ref.child("users/"+user.getUid()+"/channels/"+newDiscussionKey+"/encrypted_passphrase").setValue(encrypted);
-        ref.child("users/"+user.getUid()+"/channels/"+newDiscussionKey+"/salt").setValue(Base64.toBase64String(salt));
-        ref.child("users/"+user.getUid()+"/channels/"+newDiscussionKey+"/target_uid").setValue(target_uid);
+
+        Map<String, Object> newDiscussionMap = new HashMap<String, Object>();
+        newDiscussionMap.put("target_uid", target_uid);
+        newDiscussionMap.put("encrypted_passphrase", encrypted);
+        newDiscussionMap.put("salt", Base64.toBase64String(salt));
+        newDiscussionMap.put("newMessages", false);
+        ref.child("users/"+user.getUid()+"/channels/"+newDiscussionKey+"").setValue(newDiscussionMap);
 
         /*
             FOURTH STEP : Encrypt password with target's public key and store channel's information to it's profile
@@ -125,9 +130,12 @@ public class FirebaseManager {
                     e.printStackTrace();
                 }
 
-                ref.child("users/"+target_uid+"/channels/"+newDiscussionKey+"/encrypted_passphrase").setValue(encrypted);
-                ref.child("users/"+target_uid+"/channels/"+newDiscussionKey+"/salt").setValue(Base64.toBase64String(salt));
-                ref.child("users/"+target_uid+"/channels/"+newDiscussionKey+"/target_uid").setValue(user.getUid());
+                Map<String, Object> newDiscussionMap = new HashMap<String, Object>();
+                newDiscussionMap.put("target_uid", user.getUid());
+                newDiscussionMap.put("encrypted_passphrase", encrypted);
+                newDiscussionMap.put("salt", Base64.toBase64String(salt));
+                newDiscussionMap.put("newMessages", false);
+                ref.child("users/"+target_uid+"/channels/"+newDiscussionKey+"").setValue(newDiscussionMap);
             }
 
             @Override
@@ -151,6 +159,20 @@ public class FirebaseManager {
 
                 userSecrets = new UserSecrets((String) snapshot.child("security/public_key").getValue(), (String) snapshot.child("security/encrypted_private_key").getValue(), (String) snapshot.child("security/salt").getValue(), password);
                 listener.onSuccessAuth();
+            }
+
+            @Override
+            public void onCancelled(FirebaseError firebaseError) {
+                System.out.println("The read failed: " + firebaseError.getMessage());
+            }
+        });
+    }
+
+    public void getUserByUid(String uid, final FirebaseDataListener listener) {
+        ref.child("users/" + uid).addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot snapshot) {
+                listener.onDataChanged(snapshot);
             }
 
             @Override
@@ -257,6 +279,20 @@ public class FirebaseManager {
                 } else {
                     listener.onUpdateSuccess();
                 }
+            }
+        });
+    }
+
+    public void getUserDiscussionsList(final FirebaseDataListener listener) {
+        ref.child("users/"+getUser().getUid()+"/channels").addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                listener.onDataChanged(dataSnapshot);
+            }
+
+            @Override
+            public void onCancelled(FirebaseError firebaseError) {
+                listener.onCancelled(firebaseError);
             }
         });
     }

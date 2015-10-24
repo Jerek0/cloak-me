@@ -10,14 +10,13 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.firebase.client.DataSnapshot;
+import com.firebase.client.FirebaseError;
 import com.jeremy_minie.helloagaincrm.R;
-import com.jeremy_minie.helloagaincrm.home.RegisterActivity;
 import com.jeremy_minie.helloagaincrm.logged.AddDiscussionActivity;
 import com.jeremy_minie.helloagaincrm.logged.adapters.DiscussionsAdapter;
-import com.jeremy_minie.helloagaincrm.logged.adapters.UsersAdapter;
 import com.jeremy_minie.helloagaincrm.logged.entities.Discussion;
-import com.jeremy_minie.helloagaincrm.logged.entities.User;
-import com.jeremy_minie.helloagaincrm.util.generators.UsernameGenerator;
+import com.jeremy_minie.helloagaincrm.util.FirebaseManager;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -28,9 +27,12 @@ import butterknife.OnClick;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class DiscussionsFragment extends Fragment implements DiscussionsAdapter.OnItemClickListener {
+public class DiscussionsFragment extends Fragment implements DiscussionsAdapter.OnItemClickListener, FirebaseManager.FirebaseDataListener, Discussion.DiscussionListener {
 
     private View view;
+
+    private List<Discussion> discussionsList;
+    private DiscussionsAdapter adapter;
 
     public DiscussionsFragment() {
         // Required empty public constructor
@@ -44,16 +46,7 @@ public class DiscussionsFragment extends Fragment implements DiscussionsAdapter.
         view = inflater.inflate(R.layout.fragment_discussions, container, false);
         ButterKnife.bind(this, view);
 
-        List<Discussion> discussionList = new ArrayList<Discussion>();
-
-        for (int i = 0; i<20; i++) {
-            User user = new User("", UsernameGenerator.getInstance().newUsername(), "jeremy.minie@gmail.com");
-
-            Discussion discussion = new Discussion(user, "c'est pour savoir si tu veux aller manger au frenchy");
-            discussionList.add(discussion);
-        }
-
-        updateAdapter(discussionList);
+        FirebaseManager.getInstance().getUserDiscussionsList(this);
 
         return view;
     }
@@ -62,7 +55,7 @@ public class DiscussionsFragment extends Fragment implements DiscussionsAdapter.
         // Lookup the recyclerview in activity layout
         RecyclerView rvDiscussions = (RecyclerView) view.findViewById(R.id.rvDiscussions);
         // Create adapter passing in the sample user data
-        DiscussionsAdapter adapter = new DiscussionsAdapter(discussionsList);
+        adapter = new DiscussionsAdapter(discussionsList);
         adapter.setOnItemClickListener(this);
         // Attach the adapter to the recyclerview to populate items
         rvDiscussions.setAdapter(adapter);
@@ -80,6 +73,29 @@ public class DiscussionsFragment extends Fragment implements DiscussionsAdapter.
 
     @Override
     public void onItemClick(View itemView, String uid) {
+
+    }
+
+    @Override
+    public void onDataChanged(DataSnapshot snapshot) {
+        discussionsList = new ArrayList<Discussion>();
+
+        for (DataSnapshot postSnapshot: snapshot.getChildren()) {
+            System.out.println(postSnapshot);
+            Discussion discussion = new Discussion(postSnapshot);
+            discussion.setListener(this);
+            discussionsList.add(discussion);
+        }
+
+        updateAdapter(discussionsList);
+    }
+
+    public void onDiscussionLoaded(Discussion discussion) {
+        adapter.notifyDataSetChanged();
+    }
+
+    @Override
+    public void onCancelled(FirebaseError firebaseError) {
 
     }
 }

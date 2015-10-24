@@ -36,6 +36,7 @@ public class DiscussionsAdapter extends RecyclerView.Adapter<DiscussionsAdapter.
         public ImageView userAvatar;
         public TextView userName;
         public FrameLayout discussionBackground;
+        public FrameLayout discussionBorder;
         public TextView lastMessage;
 
         private String uid;
@@ -51,6 +52,7 @@ public class DiscussionsAdapter extends RecyclerView.Adapter<DiscussionsAdapter.
             mListener = listener;
             userAvatar = (ImageView) itemView.findViewById(R.id.user_avatar);
             userName = (TextView) itemView.findViewById(R.id.user_name);
+            discussionBorder = (FrameLayout) itemView.findViewById(R.id.discussion_border);
             discussionBackground = (FrameLayout) itemView.findViewById(R.id.discussion_background);
             lastMessage = (TextView) itemView.findViewById(R.id.last_message);
 
@@ -83,10 +85,10 @@ public class DiscussionsAdapter extends RecyclerView.Adapter<DiscussionsAdapter.
         LayoutInflater inflater = LayoutInflater.from(context);
 
         // Inflate the custom layout
-        View contactView = inflater.inflate(R.layout.item_discussion, parent, false);
+        View discussionView = inflater.inflate(R.layout.item_discussion, parent, false);
 
         // Return a new holder instance
-        ViewHolder viewHolder = new ViewHolder(contactView, this.listener);
+        ViewHolder viewHolder = new ViewHolder(discussionView, this.listener);
         return viewHolder;
     }
 
@@ -98,17 +100,25 @@ public class DiscussionsAdapter extends RecyclerView.Adapter<DiscussionsAdapter.
 
         //viewHolder.setUid(discussion.getUid());
 
-        ImageView userAvatar = viewHolder.userAvatar;
-        Picasso.with(viewHolder.itemView.getContext()).load(discussion.getTarget().getAvatar()).transform(new CircleTransform()).into(userAvatar);
+        if(discussion.getTarget() != null) {
+            ImageView userAvatar = viewHolder.userAvatar;
+            Picasso.with(viewHolder.itemView.getContext()).load(discussion.getTarget().getAvatar()).transform(new CircleTransform()).into(userAvatar);
 
-        TextView userName = viewHolder.userName;
-        userName.setText(discussion.getTarget().getUsername());
+            TextView userName = viewHolder.userName;
+            userName.setText(discussion.getTarget().getUsername());
 
-        TextView lastMessage = viewHolder.lastMessage;
-        lastMessage.setText(discussion.getLastMessage());
+            TextView lastMessage = viewHolder.lastMessage;
+            lastMessage.setText(discussion.getLastMessage());
 
-        FrameLayout discussionBackground = viewHolder.discussionBackground;
-        discussionBackground.setBackgroundColor(discussion.getTarget().getColor());
+            if(discussion.getNewMessages() == true) {
+                FrameLayout discussionBackground = viewHolder.discussionBackground;
+                discussionBackground.setBackgroundColor(discussion.getTarget().getColor());
+            } else {
+                FrameLayout discussionBorder = viewHolder.discussionBorder;
+                discussionBorder.setAlpha(1.0f);
+                discussionBorder.setBackgroundColor(discussion.getTarget().getColor());
+            }
+        }
     }
 
     // Return the total count of items

@@ -54,6 +54,6 @@
             android:layout_marginTop="5dp"
             android:text="No content"
             android:layout_height="wrap_content"
-            android:maxHeight="40dp"/>
+            android:maxHeight="35dp"/>
     </LinearLayout>
 </RelativeLayout>
