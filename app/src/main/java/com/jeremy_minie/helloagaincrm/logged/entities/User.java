@@ -27,14 +27,12 @@ public class User {
         this.avatar = "https://secure.gravatar.com/avatar/de1730191e42849751feeb687ee504b1?d=retro&s=250";
     }
 
-    public static List<User> createUsersList(int numUsers) {
-        List<User> usersList = new ArrayList<User>();
-
-        for (int i = 1; i <= numUsers; i++) {
-            usersList.add(new User("", UsernameGenerator.getInstance().newUsername(), ""));
-        }
-
-        return usersList;
+    public void fillFromSnapshot(DataSnapshot snapshot) {
+        this.setUsername((String) snapshot.child("username").getValue());
+        this.setMail((String) snapshot.child("mail").getValue());
+        this.setColor(((Long) snapshot.child("color").getValue()).intValue());
+        this.setAvatar((String) snapshot.child("avatar").getValue());
+        this.setUid(snapshot.getKey());
     }
 
     public String getUsername() {
@@ -55,14 +53,6 @@ public class User {
 
     public int getColor() {
         return color;
-    }
-
-    public void fillFromSnapshot(DataSnapshot snapshot) {
-        this.setUsername((String) snapshot.child("username").getValue());
-        this.setMail((String) snapshot.child("mail").getValue());
-        this.setColor(((Long) snapshot.child("color").getValue()).intValue());
-        this.setAvatar((String) snapshot.child("avatar").getValue());
-        this.setUid(snapshot.getKey());
     }
 
     public void setUid(String uid) {

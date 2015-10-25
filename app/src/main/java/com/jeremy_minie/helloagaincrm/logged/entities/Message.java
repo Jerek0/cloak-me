@@ -28,11 +28,11 @@ public class Message {
         return color;
     }
 
-    public void setAlignment(String alignment) {
-        this.alignment = alignment;
-    }
-
     public String getAlignment() {
         return alignment;
+    }
+
+    public void setAlignment(String alignment) {
+        this.alignment = alignment;
     }
 }
