@@ -17,38 +17,13 @@ public class RsaCryptoUtils {
 
     private static final String TAG = "RsaCryptoUtils";
 
-    @NonNull
-    private static PrivateKey getPrivateKey(Context context) {
-        String privateKeyString = context.getSharedPreferences("Crypto", Context.MODE_PRIVATE)
-                .getString("private key", "");
-
-        Log.d(TAG, privateKeyString);
-        PrivateKey privateKey = null;
-        try {
-            privateKey = RsaEcb.getRSAPrivateKeyFromString(privateKeyString);
-        } catch (GeneralSecurityException | UnsupportedEncodingException e) {
-            e.printStackTrace();
-        }
-
-        if (privateKey == null) throw new AssertionError();
-
-        Log.d(TAG, privateKey.toString());
-        return privateKey;
-    }
-
-    private static void storeKeys(Context context, KeyPair keyPair) {
-        // Do the same for public key
-        try {
-            Log.d(TAG, RsaEcb.getPrivateKeyString(keyPair.getPrivate()));
-            context.getSharedPreferences("Crypto", Context.MODE_PRIVATE)
-                    .edit()
-                    .putString("private key", RsaEcb.getPrivateKeyString(keyPair.getPrivate()))
-                    .commit();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
-
+    /**
+     * getKeyPair
+     *
+     * Allows to generate a RSA KeyPair
+     *
+     * @return KeyPair
+     */
     @NonNull
     public static KeyPair getKeyPair() {
         KeyPair keyPair = null;

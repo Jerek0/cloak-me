@@ -19,6 +19,7 @@ public class LoggedActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_logged);
 
+        // Set a toolbar w/ a title and a logo
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setLogo(R.drawable.logo_small);
@@ -34,6 +35,12 @@ public class LoggedActivity extends AppCompatActivity {
         tabLayout.setupWithViewPager(viewPager);
     }
 
+    /**
+     * onOptionsItemSelected
+     *
+     * @param item
+     * @return
+     */
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
 
@@ -46,6 +53,14 @@ public class LoggedActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
+    /**
+     * onCreateOptionsMenu
+     *
+     * We use a menu in order to have the logout button
+     *
+     * @param menu
+     * @return
+     */
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.

@@ -12,6 +12,13 @@ import java.security.GeneralSecurityException;
 public class AesCryptoUtils {
     private static final String TAG = "AesCryptoUtils";
 
+    /**
+     * getSalt
+     *
+     * Allows to generate a salt for AES encryption
+     *
+     * @return byte[] - the salt
+     */
     public static byte[] getSalt() {
         byte[] salt = new byte[0];
 
@@ -29,6 +36,15 @@ public class AesCryptoUtils {
         return salt;
     }
 
+    /**
+     * getSecretKeys
+     *
+     * Allows to get AES secret keys from a given password and a given salt
+     *
+     * @param password
+     * @param salt
+     * @return AesCbcWithIntegrity.SecretKeys - The AES Keys
+     */
     @NonNull
     public static AesCbcWithIntegrity.SecretKeys getSecretKeys(String password, byte[] salt) {
         // The secret keys
