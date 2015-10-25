@@ -14,7 +14,7 @@ Inscrivez vous, choisissez une couleur, changez de pseudo si la génération de 
 ### BETA Test (Google Play)
 ![Cloak me Logo](http://img11.hostingpics.net/pics/755833logoapp464.png)
 
-_Requête en cours d'analyse par Google Play, le lien de la bêta sera partagé ici une fois reçu_
+[Participer à la bêta ouverte](https://play.google.com/apps/testing/com.jeremy_minie.helloagaincrm "Participer à la bêta ouverte")
 
 ### Screenshots (Nexus 5 & Nexus 7)
 [Télécharger le ZIP](http://91.121.120.180/misc/cloakme/cloakme-screenshots.zip "Télécharger le ZIP")
