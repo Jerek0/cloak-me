@@ -86,6 +86,7 @@ public class MainActivity extends AppCompatActivity implements LoginFragment.Log
     @Override
     public void onSuccessAuth() {
         fragment.mLoginButton.setEnabled(true);
+        fragment.mLoginPassword.setText("");
         Intent intent = new Intent(this, LoggedActivity.class);
         startActivity(intent);
     }

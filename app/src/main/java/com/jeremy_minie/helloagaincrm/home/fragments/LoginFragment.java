@@ -23,6 +23,7 @@ public class LoginFragment extends Fragment {
 
     private static final String TAG = "LoginFragment";
     private LoginListener mListener;
+    private Context context;
 
     @Bind(R.id.loginMail)
     public TextView mLoginMail;
@@ -43,6 +44,7 @@ public class LoginFragment extends Fragment {
         } catch (ClassCastException e) {
             throw new ClassCastException(context.toString() + " must implement LoginFragment.LoginListener");
         }
+        this.context = context;
     }
 
     @Override
@@ -52,6 +54,14 @@ public class LoginFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_login, container, false);
         ButterKnife.bind(this, view);
 
+        String lastMail = context.getSharedPreferences("cloakme", Context.MODE_PRIVATE)
+                .getString("mail","");
+
+        if(lastMail!=null) {
+            mLoginMail.setText(lastMail);
+            mLoginPassword.requestFocus();
+        }
+
         return view;
     }
 
@@ -59,6 +69,11 @@ public class LoginFragment extends Fragment {
     void onLoginClick() {
         mLoginButton.setEnabled(false);
         mListener.onLoginClicked(mLoginMail.getText(), mLoginPassword.getText());
+
+        context.getSharedPreferences("cloakme", Context.MODE_PRIVATE)
+                .edit()
+                .putString("mail", mLoginMail.getText().toString())
+                .commit();
     }
 
     @OnClick(R.id.registerButton)
