@@ -20,10 +20,7 @@ Inscrivez vous, choisissez une couleur, changez de pseudo si la génération de 
 [Télécharger le ZIP](http://91.121.120.180/misc/cloakme/cloakme-screenshots.zip "Télécharger le ZIP")
 
 ## Fonctionnement
-
-### Code
-_Le code est actuellement en cours de "commentage", merci de revenir dans quelques heures/minutes. Promis ce sera mieux ;)_ 
-
+ 
 ### Technologies utilisées
 
 Le stockage des données s'effectue sur Firebase. L'authentification est entièrement gérée par ce service et n'a pas été modifiée: les mots de passe utilisateurs sont gérés par firebase.
