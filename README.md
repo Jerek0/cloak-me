@@ -16,7 +16,7 @@ Inscrivez vous, choisissez une couleur, changez de pseudo si la génération de 
 
 _Requête en cours d'analyse par Google Play, le lien de la bêta sera partagé ici une fois reçu_
 
-### Screenshots
+### Screenshots (Nexus 5 & Nexus 7)
 [Télécharger le ZIP](http://91.121.120.180/misc/cloakme/cloakme-screenshots.zip "Télécharger le ZIP")
 
 ## Fonctionnement
@@ -119,7 +119,7 @@ Chaque message dispose de l'uid de son auteur, de son channel ainsi que de son c
 
 Bien que fonctionnelle, l'appli dispose certains points qui restent à améliorer (au moins on les connait) :
 
-* A chaque changement de données, toute la liste est rafraichie, que cela soit sur la liste des discussions ou dans une discussion. Dans l'idéal, une modification sur une discussion (nouveau message par exemple), ne devrait mettre à jour que l'item correspondant dans la liste. Cependant à la vue des contraintes de temps, il a été choisi d'aller au plus simple pour rester pleinement fonctionnel
+* A chaque changement de données, toute la liste est rafraichie, que cela soit sur la liste des discussions ou dans une discussion. Dans l'idéal, une modification sur une discussion (nouveau message par exemple), ne devrait mettre à jour que l'item correspondant dans la liste. Cependant à la vue des contraintes de temps, il a été choisi d'aller au plus simple pour rester pleinnement fonctionnel
 * Les droits en lecture / écriture ne sont pas encore configurés dans firebase : n'importe qui peut tout modifier (mais pas déchiffrer !) à sa guise. Ce qui n'est pas souhaitable bien évidemment. Encore une fois, cela est dû à la contrainte de temps mais aussi au manque de connaissance du service Firebase.
 * Pas de persistance de session : si on éteint l'appli on doit se reconnecter (l'appli pré-remplit le champ mail cependant :) )
 * Pas de système de notifications de nouveaux messages ( du à la contrainte précédente notamment )
