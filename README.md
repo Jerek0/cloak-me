@@ -123,6 +123,7 @@ Bien que fonctionnelle, l'appli dispose certains points qui restent à améliore
 * Les droits en lecture / écriture ne sont pas encore configurés dans firebase : n'importe qui peut tout modifier (mais pas déchiffrer !) à sa guise. Ce qui n'est pas souhaitable bien évidemment. Encore une fois, cela est dû à la contrainte de temps mais aussi au manque de connaissance du service Firebase.
 * Pas de persistance de session : si on éteint l'appli on doit se reconnecter (l'appli pré-remplit le champ mail cependant :) )
 * Pas de système de notifications de nouveaux messages ( du à la contrainte précédente notamment )
+* Gestion de la mémoire : il y a une très grosse optimisation à faire sur ce point (onDestroy et compagnie manquant quasiment partout)
 
     
  
