@@ -3,7 +3,13 @@ package com.jeremy_minie.helloagaincrm.util.generators;
 import java.util.ArrayList;
 import java.util.Random;
 
+
 /**
+ *
+ * USERNAME GENERATOR (Singleton)
+ *
+ * Allows to get random and funny usernames by mixing adjectives and nouns
+ *
  * Created by jerek0 on 15/10/15.
  */
 public class UsernameGenerator {
@@ -21,6 +27,7 @@ public class UsernameGenerator {
         adjectives = new ArrayList<String>();
         nouns = new ArrayList<String>();
 
+        // List of adjectives
         adjectives.add("Incandescent");
         adjectives.add("Funny");
         adjectives.add("Beautiful");
@@ -36,6 +43,7 @@ public class UsernameGenerator {
         adjectives.add("Antic");
         adjectives.add("Legendary");
 
+        // List of nouns (mostly animals)
         nouns.add("Turtle");
         nouns.add("Hacker");
         nouns.add("Quokka");
@@ -52,9 +60,17 @@ public class UsernameGenerator {
         nouns.add("Hummingbird");
         nouns.add("Parrot");
 
+        // Number random generator
         randomGenerator = new Random();
     }
 
+    /**
+     * newUsername
+     *
+     * Allows to generate a username using adjectives, nouns and randomGenerator
+     *
+     * @return String - our funny username =)
+     */
     public String newUsername() {
         String adjective = (String) adjectives.get(randomGenerator.nextInt(adjectives.size()));
         String noun = (String) nouns.get(randomGenerator.nextInt(nouns.size()));

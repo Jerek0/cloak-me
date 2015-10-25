@@ -4,6 +4,11 @@ import java.util.ArrayList;
 import java.util.Random;
 
 /**
+ *
+ * QUOTES FACTORY (Singleton)
+ *
+ * Allows to get random quotes related to the Mr.Robot US Series
+ *
  * Created by jerek0 on 15/10/15.
  */
 public class QuotesFactory {
@@ -19,6 +24,7 @@ public class QuotesFactory {
     private QuotesFactory() {
         quotes = new ArrayList<String>();
         randomGenerator = new Random();
+
 
         quotes.add("Our democracy has been hacked");
         quotes.add("True courage is about being honest with yourself. Especially when it’s difficult.");
