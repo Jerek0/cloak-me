@@ -16,6 +16,13 @@ import com.jeremy_minie.helloagaincrm.home.fragments.RegisterFragment;
 
 import java.util.Map;
 
+/**
+ *
+ * RegisterActivity
+ *
+ * Uses RegisterFragment
+ *
+ */
 public class RegisterActivity extends AppCompatActivity implements RegisterFragment.RegisterListener, FirebaseManager.FirebaseRegisterListener {
 
     private static final String TAG = "RegisterActivity";
@@ -33,6 +40,7 @@ public class RegisterActivity extends AppCompatActivity implements RegisterFragm
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register);
 
+        // Add a toolbar w/ title and cross to close
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         toolbar.setTitle("Register");
         setSupportActionBar(toolbar);
@@ -44,6 +52,13 @@ public class RegisterActivity extends AppCompatActivity implements RegisterFragm
         getSupportFragmentManager().beginTransaction().add(R.id.mainContainer, fragment).commit();
     }
 
+    /**
+     * OnOptionsItemSelected
+     *
+     * Allows to finish the current activity when home button (cross) is clicked instead of a new Intent to MainActivity
+     * @param item
+     * @return
+     */
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
 
@@ -55,21 +70,33 @@ public class RegisterActivity extends AppCompatActivity implements RegisterFragm
         return super.onOptionsItemSelected(item);
     }
 
+    /**
+     * RegisterListener - On Register button is clicked -> Try to create a user
+     * @param mail
+     * @param password
+     */
     @Override
     public void onRegisterClicked(CharSequence mail, CharSequence password) {
-        Log.d(TAG, "onClickedRegisterBtn " + mail + " " + password);
+        // Get the data
         current_mail = mail.toString();
         current_pwd = password.toString();
+        // Create a user (password is given for AES encryption of RSA private key, but it is not stored afterwards)
         FirebaseManager.getInstance().createUser(current_mail, current_pwd, this);
     }
 
+    /**
+     * FirebaseRegisterListener - On successful registration -> Get back to MainActivity
+     * @param stringObjectMap
+     */
     @Override
     public void onSuccessRegister(Map<String, Object> stringObjectMap) {
         fragment.mRegisterButton.setEnabled(true);
-        System.out.println("Successfully created user account with uid: " + stringObjectMap.get("uid"));
 
+        // Firebase created a user on its own authentication system, but we have to store other datas
+        // Tells firebase to generate a user to our users list
         FirebaseManager.getInstance().generateUser(stringObjectMap.get("uid").toString(), current_mail, current_pwd);
 
+        // Get back to MainActivity with some extras to pre-fill inputs
         Intent intent = new Intent(this, MainActivity.class);
         intent.putExtra(INFO, "You are now registered, please login");
         intent.putExtra(MAIL, current_mail);
@@ -80,6 +107,11 @@ public class RegisterActivity extends AppCompatActivity implements RegisterFragm
         finish();
     }
 
+    /**
+     * On Registration failure -> Show error message in a toast
+     *
+     * @param firebaseError
+     */
     @Override
     public void onError(FirebaseError firebaseError) {
         fragment.mRegisterButton.setEnabled(true);

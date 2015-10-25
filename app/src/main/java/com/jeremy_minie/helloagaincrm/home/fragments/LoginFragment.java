@@ -22,6 +22,7 @@ public class LoginFragment extends Fragment {
 
 
     private static final String TAG = "LoginFragment";
+
     private LoginListener mListener;
     private Context context;
 
@@ -40,6 +41,7 @@ public class LoginFragment extends Fragment {
     public void onAttach(Context context) {
         super.onAttach(context);
         try {
+            // Set our context as LoginListener (used for callbacks)
             mListener = (LoginListener) context;
         } catch (ClassCastException e) {
             throw new ClassCastException(context.toString() + " must implement LoginFragment.LoginListener");
@@ -50,14 +52,17 @@ public class LoginFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-
         View view = inflater.inflate(R.layout.fragment_login, container, false);
+
+        // Launch butterknife binding
         ButterKnife.bind(this, view);
 
+        // Get last used mail from shared preferences
         String lastMail = context.getSharedPreferences("cloakme", Context.MODE_PRIVATE)
                 .getString("mail","");
 
-        if(lastMail!=null) {
+        // If there's one -> fill the input and request focus on mLoginPassword
+        if(lastMail!=null) { // TODO - Condition fails
             mLoginMail.setText(lastMail);
             mLoginPassword.requestFocus();
         }
@@ -67,9 +72,13 @@ public class LoginFragment extends Fragment {
 
     @OnClick(R.id.loginButton)
     void onLoginClick() {
+        // Disable button to prevent spamming
         mLoginButton.setEnabled(false);
+
+        // Call our Listener to notify the request
         mListener.onLoginClicked(mLoginMail.getText(), mLoginPassword.getText());
 
+        // Save the mail value in sharedPreferences for later connections
         context.getSharedPreferences("cloakme", Context.MODE_PRIVATE)
                 .edit()
                 .putString("mail", mLoginMail.getText().toString())
@@ -78,9 +87,13 @@ public class LoginFragment extends Fragment {
 
     @OnClick(R.id.registerButton)
     void onRegisterClick() {
+        // Call our Listener to notify the request
         mListener.onRegisterClicked();
     }
 
+    /**
+     * Login fragment listener to implement
+     */
     public interface LoginListener {
         void onLoginClicked(CharSequence username, CharSequence password);
         void onRegisterClicked();

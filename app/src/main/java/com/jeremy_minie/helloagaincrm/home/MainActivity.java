@@ -18,6 +18,13 @@ import com.jeremy_minie.helloagaincrm.util.generators.QuotesFactory;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 
+/**
+ *
+ * HOME Activity
+ *
+ * Uses LoginFragment
+ *
+ */
 public class MainActivity extends AppCompatActivity implements LoginFragment.LoginListener, FirebaseManager.FirebaseAuthListener {
 
     private static final String TAG = "MainActivity";
@@ -39,6 +46,7 @@ public class MainActivity extends AppCompatActivity implements LoginFragment.Log
         fragment = new LoginFragment();
         getSupportFragmentManager().beginTransaction().add(R.id.mainContainer, fragment).commit();
 
+        // Launch butterknife binding
         ButterKnife.bind(this);
     }
 
@@ -46,13 +54,19 @@ public class MainActivity extends AppCompatActivity implements LoginFragment.Log
     protected void onResume() {
         super.onResume();
 
+        // Load another quote when getting back to this activity
         mQuoteCarousel.setText(QuotesFactory.getInstance().randomQuote());
     }
 
+    /**
+     * The activity being a SingleTop, each Intent is received here after the first one
+     * @param intent
+     */
     @Override
     protected void onNewIntent(Intent intent) {
         super.onNewIntent(intent);
 
+        // Shows a snackbar if an INFO extra is given to the activity, in order to notify the user
         if(intent.getStringExtra(RegisterActivity.INFO) != null) {
             Snackbar.make(findViewById(R.id.mainContainer), intent.getStringExtra(RegisterActivity.INFO), Snackbar.LENGTH_SHORT)
                     .setAction("DISMISS", new View.OnClickListener() {
@@ -63,6 +77,7 @@ public class MainActivity extends AppCompatActivity implements LoginFragment.Log
                     })
                     .show();
         }
+        // Pre-fill mail and password inputs if coming from register activity
         if(intent.getStringExtra(RegisterActivity.MAIL) != null) {
             fragment.mLoginMail.setText(intent.getStringExtra(RegisterActivity.MAIL));
         }
@@ -71,18 +86,29 @@ public class MainActivity extends AppCompatActivity implements LoginFragment.Log
         }
     }
 
+    /**
+     * LoginListener - On login button clicked -> FirebaseAuth
+     *
+     * @param mail
+     * @param password
+     */
     @Override
     public void onLoginClicked(final CharSequence mail, final CharSequence password) {
-        Log.d(TAG, "onClickedLoginBtn");
         FirebaseManager.getInstance().authWithPassword(mail.toString(), password.toString(), this);
     }
 
+    /**
+     * LoginListener - On register button clicked -> open RegisterActivity
+     */
     @Override
     public void onRegisterClicked() {
         Intent intent = new Intent(this, RegisterActivity.class);
         startActivity(intent);
     }
 
+    /**
+     * FirebaseAuthListener - On successful authentication -> launch LoggedActivity
+     */
     @Override
     public void onSuccessAuth() {
         fragment.mLoginButton.setEnabled(true);
@@ -91,6 +117,10 @@ public class MainActivity extends AppCompatActivity implements LoginFragment.Log
         startActivity(intent);
     }
 
+    /**
+     * FirebaseAuthListener - On failed authentication -> Displays error message in a Snackbar
+     * @param firebaseError
+     */
     @Override
     public void onError(FirebaseError firebaseError) {
         fragment.mLoginButton.setEnabled(true);

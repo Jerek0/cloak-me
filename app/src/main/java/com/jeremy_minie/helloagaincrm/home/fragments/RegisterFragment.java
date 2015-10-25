@@ -37,6 +37,7 @@ public class RegisterFragment extends Fragment {
     public void onAttach(Context context) {
         super.onAttach(context);
         try {
+            // Set our context as RegisterListener (used for callbacks)
             mListener = (RegisterListener) context;
         } catch (ClassCastException e) {
             throw new ClassCastException(context.toString() + " must implement RegisterFragment.RegisterListener");
@@ -48,6 +49,8 @@ public class RegisterFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_register, container, false);
+
+        // Launch butterknife binding
         ButterKnife.bind(this, view);
 
         return view;
@@ -55,10 +58,16 @@ public class RegisterFragment extends Fragment {
 
     @OnClick(R.id.registerButton)
     void onClick() {
+        // Disable button to prevent spamming
         mRegisterButton.setEnabled(false);
+
+        // Call our Listener to notify the request
         mListener.onRegisterClicked(mRegisterMail.getText(), mRegisterPassword.getText());
     }
 
+    /**
+     * Register fragment listener to implement
+     */
     public interface RegisterListener {
         void onRegisterClicked(CharSequence mail, CharSequence password);
     }
